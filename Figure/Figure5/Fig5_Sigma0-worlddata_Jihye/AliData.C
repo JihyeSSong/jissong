@@ -234,19 +234,19 @@ void AliData(int w=5) {
 
    TLatex * text = new TLatex (0.38,0.87,"ALICE,  pp #sqrt{#it{s}} = 7 TeV");
   text->SetTextSize(0.06);
-  text.SetNDC();
+ // text.SetNDC();
   text->SetTextFont(42);
   text->Draw();
 
    TLatex * text3 = new TLatex (0.41,0.78,"#Sigma^{0} #rightarrow #Lambda #gamma,  #bar{#Sigma^{0}} #rightarrow #bar{#Lambda} #gamma");
-  text3.SetNDC();
+ // text3.SetNDC();
   text3->SetTextSize(0.07);
   text3->SetTextFont(42);
   //  text3->Draw();
 
 
   TLatex * text2 = new TLatex (0.43,0.77,"Uncertainties: stat. (inner bars), sys. (outer bars)");
-  text2.SetNDC();
+ // text2.SetNDC();
   text2->SetTextSize(0.04);
   text2->SetTextFont(42);
   text2->Draw();
