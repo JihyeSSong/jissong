@@ -212,7 +212,7 @@ double ptedges[ptbin+1] = { 1.1, 1.6, 2.0, 2.4, 2.8, 3.4, 4., 5.0, 8.0 };
  }
  TGraph *gr1 = new TGraph(n,x,y);
  TGraph *g11 = new TGraph(n1,x1,y1);
- TCanvas *c1100 = new TCanvas("c100","gerrors2",200,10,700,500);
+ TCanvas *c1100 = new TCanvas("c1100","gerrors2",200,10,700,500);
  TGraph *gr1 = new TGraph(n,x,y);
  gr1->SetMarkerStyle(21);
  TSpline3 *s31 = new TSpline3("s31",gr1->GetX(),gr1->GetY(),gr1->GetN());
@@ -227,7 +227,7 @@ double ptedges[ptbin+1] = { 1.1, 1.6, 2.0, 2.4, 2.8, 3.4, 4., 5.0, 8.0 };
 
  // LamYield->Scale(1./nevt); LamYield->SetMarkerSize(2); LamYield->SetMarkerStyle(24);
  //     LamYield->Draw("P"); LamYield->Draw("Psame");
- TCanvas *c1011 = new TCanvas("c1011","Input",200,10,700,500);       
+ //TCanvas *c1011 = new TCanvas("c1011","Input",200,10,700,500);
 
 
 
@@ -436,7 +436,7 @@ gStyle->SetOptStat(0);
   //  text3->Draw();
 
    TLatex * text2 = new TLatex (0.20,0.1,"Uncertainties: stat. (bars), sys. (boxes)");
-  text2.SetNDC();
+ // text2.SetNDC();
   text2->SetTextSize(0.04);
   text2->SetTextFont(42);
   text2->Draw();
@@ -592,7 +592,7 @@ gStyle->SetOptFit(11111);
 
   TFile *fout = TFile::Open("MCResRes.root","RECREATE");
 
-  cM1->Write("");
+  //cM1->Write("");
   //   s4->SetLineWidth(3.);   s4->Draw("lsame");
  
 
