@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {section}{\numberline {2} Experimental setup and event selection}{3}{section.2}
+\contentsline {section}{\numberline {3}Data analysis}{4}{section.3}
+\contentsline {subsection}{\numberline {3.1}Signal extraction}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Corrections and normalization}{6}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Systematic uncertainties}{7}{subsection.3.3}
+\contentsline {section}{\numberline {4}Results and discussion}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Transverse momentum spectrum}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}\ensuremath {\frac {\Sigma ^0}{\Lambda } \tmspace +\thickmuskip {.2777em} }ratio}{10}{subsection.4.2}
+\contentsline {section}{\numberline {5}Conclusions}{11}{section.5}
+\contentsline {section}{\numberline {A}The ALICE Collaboration}{15}{appendix.A}

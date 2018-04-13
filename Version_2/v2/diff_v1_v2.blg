@@ -1,0 +1,140 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: diff_v1_v2.aux
+The style file: utphys.bst
+Database file #1: mybib_v2.bib
+You're missing a field name---line 12 of file mybib_v2.bib
+ : 
+ : %url = "http://www.sciencedirect.com/science/article/pii/S0370269312009598",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 514 of file mybib_v2.bib
+ : 
+ : %author = "Abelev, B. and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 659 of file mybib_v2.bib
+ : 
+ : @article{cite:PYTHIA-8-Monash-gener,
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 737 of file mybib_v2.bib
+ : 
+ : %author = " Abelev, B.B.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 752 of file mybib_v2.bib
+ : 
+ : %author = "Bozek, P. and Broniowski, W. ",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 766 of file mybib_v2.bib
+ : 
+ : %author = "Khachatryan, V. and others ",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 782 of file mybib_v2.bib
+ : 
+ : %author = "Abelev, B.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 797 of file mybib_v2.bib
+ : 
+ : %author = "Aad, G.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 812 of file mybib_v2.bib
+ : 
+ : %author = "Khachatryan, V.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 836 of file mybib_v2.bib
+ : 
+ : %author = " J. Adam  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 851 of file mybib_v2.bib
+ : 
+ : %author = "Abelev, B.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 867 of file mybib_v2.bib
+ : 
+ : %author = " Aamond, K  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Repeated entry---line 882 of file mybib_v2.bib
+ : @article{cite:PDG
+ :                  ,
+I'm skipping whatever remains of this entry
+You're missing a field name---line 1090 of file mybib_v2.bib
+ : 
+ : %author = "Adam, J.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 1105 of file mybib_v2.bib
+ : 
+ : %author = "Abelev, B.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 1121 of file mybib_v2.bib
+ : 
+ : %author = "Abelev, B.~I.  and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 1194 of file mybib_v2.bib
+ : 
+ : %author = "Adam, J and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 1237 of file mybib_v2.bib
+ : 
+ : %author = "Adam, J and others",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "cite:lamda_model"
+Warning--I didn't find a database entry for "cite:feed-down"
+Warning--empty pages in cite:DDChin-Lam
+Warning--empty pages in cite:GEANT
+You've used 36 entries,
+            2328 wiz_defined-function locations,
+            850 strings with 10519 characters,
+and the built_in function-call counts, 11423 in all, are:
+= -- 1129
+> -- 289
+< -- 0
++ -- 110
+- -- 74
+* -- 1179
+:= -- 1298
+add.period$ -- 36
+call.type$ -- 36
+change.case$ -- 36
+chr.to.int$ -- 0
+cite$ -- 38
+duplicate$ -- 637
+empty$ -- 1153
+format.name$ -- 74
+if$ -- 2999
+int.to.chr$ -- 0
+int.to.str$ -- 36
+missing$ -- 143
+newline$ -- 111
+num.names$ -- 36
+pop$ -- 147
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 497
+stack$ -- 0
+substring$ -- 588
+swap$ -- 347
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 85
+width$ -- 38
+write$ -- 304
+(There were 18 error messages)
