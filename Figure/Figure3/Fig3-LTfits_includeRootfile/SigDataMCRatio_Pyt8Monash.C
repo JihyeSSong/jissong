@@ -302,12 +302,11 @@ g1->Draw("lsame");
   boxL->SetAxisRange(0.0,4.,"Y");
   boxL->SetXTitle("#it{p}_{T} (GeV/#it{c})");
   //  boxL->SetYTitle("1/N_{inel}d^{3}N/dyd^{2}p_{t} (GeV^{-2}c^{2})");
-  boxL->SetYTitle("1/#it{N}_{INEL}#timesd^{2}#it{N}/(d#it{y}d#it{p}_{T}) [(GeV/#it{c})^{-1}]");
-
-  boxL->SetTitleSize(0.059,"Y");
+  boxL->SetYTitle("1/#it{N}_{INEL} d^{2}#it{N}/(d#it{y}d#it{p}_{T}) [(GeV/#it{c})^{-1}]");
+  boxL->SetTitleSize(0.05,"Y");
   boxL->SetTitleOffset(0.750,"Y");
   boxL->SetLabelOffset(0.0,"Y");
-
+    boxL->SetLabelSize(0.05,"Y");
   boxL->SetMinimum(0.200001e-5) ;
   boxL->SetMaximum(0.20) ;
 
@@ -609,9 +608,9 @@ void ALICEPreliminary(TPad *c){
   myPadLogo->SetBorderMode(0);
   myPadLogo->SetBorderSize(2);
   myPadLogo->SetFrameBorderMode(0);
-  myPadLogo->SetLeftMargin(0.0);
+  myPadLogo->SetLeftMargin(0.15);
   myPadLogo->SetTopMargin(0.0);
-  myPadLogo->SetBottomMargin(0.0);
+  myPadLogo->SetBottomMargin(0.15);
   myPadLogo->SetRightMargin(0.0);
   myPadLogo->SetFillStyle(0);
   myPadLogo->Draw();
