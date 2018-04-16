@@ -1,7 +1,7 @@
 {
 //=========Macro generated from canvas: Acc/Acceptance and Efficiency
 //=========  (Thu Apr 12 15:51:19 2018) by ROOT version5.34/30
-   TCanvas *Acc = new TCanvas("Acc", "Acceptance and Efficiency",2,26,800,738);
+   TCanvas *Acc = new TCanvas("Acc", "Acceptance and Efficiency",2,26,800,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
    Acc->Range(-1.6,-5.006915,9.066667,-1.842848);
@@ -16,7 +16,12 @@
    Acc->SetFrameFillColor(0);
    Acc->SetFrameBorderMode(0);
    Acc->SetFrameBorderMode(0);
-   Double_t xAxis1[10] = {0, 1.1, 1.6, 2, 2.4, 2.8, 3.4, 4, 5, 8}; 
+    
+    gStyle->SetPadTickX(1);
+    gStyle->SetPadTickY(1);
+    gStyle->SetFuncWidth(2);
+    gStyle->SetLineWidth(2);
+   Double_t xAxis1[10] = {0, 1.1, 1.6, 2, 2.4, 2.8, 3.4, 4, 5, 8};
    
    TH1D *h_Eff = new TH1D("h_Eff","Effi",9, xAxis1);
    h_Eff->SetBinContent(2,6.333082e-05);
@@ -36,35 +41,63 @@
    h_Eff->SetBinError(8,0.000209346);
    h_Eff->SetBinError(9,0.0002773859);
    h_Eff->SetEntries(8);
-   h_Eff->SetMarkerStyle(21);
+    h_Eff->GetYaxis()->SetRangeUser(0.00002,0.01);
+   h_Eff->SetMarkerStyle(20);
+    h_Eff->SetMarkerColor(1);
+    h_Eff->SetLineColor(1);
+
    h_Eff->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
-   h_Eff->GetXaxis()->SetLabelFont(42);
-   h_Eff->GetXaxis()->SetLabelSize(0.035);
-   h_Eff->GetXaxis()->SetTitleSize(0.038);
+   h_Eff->GetXaxis()->SetLabelFont(40);
+   h_Eff->GetXaxis()->SetLabelSize(0.05);
+   h_Eff->GetXaxis()->SetTitleSize(0.05);
+    h_Eff->GetXaxis()->SetTitleOffset(1.1);
    h_Eff->GetXaxis()->SetTitleFont(42);
    h_Eff->GetYaxis()->SetTitle("Acceptance #times Efficiency #times B.R.");
    h_Eff->GetYaxis()->SetLabelFont(42);
-   h_Eff->GetYaxis()->SetLabelSize(0.035);
-   h_Eff->GetYaxis()->SetTitleSize(0.038);
-   h_Eff->GetYaxis()->SetTitleOffset(1.45);
+   h_Eff->GetYaxis()->SetLabelSize(0.05);
+   h_Eff->GetYaxis()->SetTitleSize(0.05);
+   h_Eff->GetYaxis()->SetTitleOffset(1.2);
    h_Eff->GetYaxis()->SetTitleFont(42);
    h_Eff->GetZaxis()->SetLabelFont(42);
    h_Eff->GetZaxis()->SetLabelSize(0.035);
    h_Eff->GetZaxis()->SetTitleSize(0.035);
    h_Eff->GetZaxis()->SetTitleFont(42);
    h_Eff->Draw("E");
-   TLatex *   tex = new TLatex(0.2,0.82,"ALICE simulation,  pp #sqrt{#it{s}} = 7 TeV");
+   TLatex *   tex = new TLatex(0.2,0.82,"ALICE,  pp, #sqrt{#it{s}} = 7 TeV");
 tex->SetNDC();
    tex->SetTextFont(42);
-   tex->SetTextSize(0.04);
+   tex->SetTextSize(0.05);
    tex->SetLineWidth(2);
    tex->Draw();
       tex = new TLatex(0.2,0.75,"#Sigma^{0} #rightarrow #Lambda #gamma, #bar{#Sigma}^{0} #rightarrow #bar{#Lambda} #gamma");
 tex->SetNDC();
    tex->SetTextFont(42);
    tex->SetLineWidth(2);
-   tex->Draw();
+   //tex->Draw();
+    
+    TLegend *leg = new TLegend(0.4,0.3,0.7,0.4,NULL,"brNDC");
+    leg->SetBorderSize(0);
+    leg->SetLineColor(1);
+    leg->SetLineStyle(1);
+    leg->SetLineWidth(2);
+    leg->SetFillColor(0);
+    leg->SetFillStyle(1001);
+    leg->SetTextSize(0.05);
+    
+    TLegendEntry *entry=leg->AddEntry("h_Eff","#Sigma^{0} #rightarrow #Lambda #gamma, #bar{#Sigma}^{0} #rightarrow #bar{#Lambda} #gamma","lp");
+    entry->SetLineColor(1);
+    entry->SetLineStyle(1);
+    entry->SetLineWidth(1);
+    entry->SetMarkerColor(1);
+    entry->SetMarkerSize(1);
+    entry->SetTextFont(42);
+    leg->Draw();
+
+    
    Acc->Modified();
    Acc->cd();
    Acc->SetSelected(Acc);
+    Acc->SaveAs("Figure2.pdf");
+    Acc->SaveAs("Figure2.C");
+
 }
