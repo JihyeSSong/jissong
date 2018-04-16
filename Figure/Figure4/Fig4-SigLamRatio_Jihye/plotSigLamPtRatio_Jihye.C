@@ -5,7 +5,7 @@ void FakeHistosOnlyForExample(TH1*&hstat, TH1*&hsyst, TH1*&hsystCorr);
 // void LoadLibs();
 
 
-void plotSigLamPtRatio_v2(){
+void plotSigLamPtRatio_Jihye(){
   // Load necessary libraries
   // LoadLibs();
   // Set the default style
@@ -22,18 +22,79 @@ void plotSigLamPtRatio_v2(){
   TH1D *h_RatioSigLam = (TH1D*) fpol1->Get("h_RatioSigLam"); 
   TH1D *h_RatioStatSigLam = (TH1D*) fpol1->Get("h_RatioStatSigLam"); 
 
-  //  TFile *fPyt6 = TFile::Open("RSigLamGen-Pyt6Per-23feb18.root");
-  TFile *fPyt6 = TFile::Open("RSigLamGen-v2-pyt6.root");
-  TGraphErrors *hRSigLamPyt6 = (TGraphErrors*) fPyt6->Get("h_RSigLam"); 
+//  TFile *fPyt6 = TFile::Open("RSigLamGen-v2-pyt6.root");
+//  TGraphErrors *hRSigLamPyt6 = (TGraphErrors*) fPyt6->Get("h_RSigLam");
+//    hRSigLamPyt6->SetLineColor(2);
+    
+    TGraphErrors *hRSigLamPyt6 = new TGraphErrors(9);
+    hRSigLamPyt6->SetName("hRSigLamPyt6");
+    hRSigLamPyt6->SetTitle("hRSigLamPyt6");
+    hRSigLamPyt6->SetFillColor(1);
+    
+    Int_t ci;      // for color index setting
+    TColor *color; // for color definition with alpha
+    hRSigLamPyt6->SetLineColor(2);
+    hRSigLamPyt6->SetLineWidth(2);
+  //  hRSigLamPyt6->SetPoint(0,0.25,0.4389356);
+  //  hRSigLamPyt6->SetPointError(0,0.05,6.992606e-05);
+    hRSigLamPyt6->SetPoint(1,0.7,0.2662726);
+    hRSigLamPyt6->SetPointError(1,0.4,6.296073e-05);
+    hRSigLamPyt6->SetPoint(2,1.35,0.285063);
+    hRSigLamPyt6->SetPointError(2,0.25,0.0001377947);
+    hRSigLamPyt6->SetPoint(3,1.8,0.3001202);
+    hRSigLamPyt6->SetPointError(3,0.2,0.0002127028);
+    hRSigLamPyt6->SetPoint(4,2.2,0.3075513);
+    hRSigLamPyt6->SetPointError(4,0.2,0.00030191);
+    hRSigLamPyt6->SetPoint(5,2.6,0.3131504);
+    hRSigLamPyt6->SetPointError(5,0.2,0.0004166539);
+    hRSigLamPyt6->SetPoint(6,3.1,0.316265);
+    hRSigLamPyt6->SetPointError(6,0.3,0.0006037659);
+    hRSigLamPyt6->SetPoint(7,3.7,0.3145022);
+    hRSigLamPyt6->SetPointError(7,0.3,0.0008954056);
+    hRSigLamPyt6->SetPoint(8,4.5,0.3197625);
+    hRSigLamPyt6->SetPointError(8,0.5,0.001393487);
+    hRSigLamPyt6->SetPoint(9,6.5,0.3085886);
+    hRSigLamPyt6->SetPointError(9,1.5,0.00287543);
+    
+    TH1F *Graph_Graph1 = new TH1F("Graph_Graph1","Graph",100,0,8.78);
+    hRSigLamPyt6->SetHistogram(Graph_Graph1);
 
 
-  //  hRSigLamPyt6 ->Draw("E");  if(1) return; 
-
-  //  TFile *fPyt8 = TFile::Open("RSigLamGen-Pyt8Mon-23feb18.root");
-  TFile *fPyt8 = TFile::Open("RSigLamGen-v2-pyt8.root");
-  TGraphErrors *hRSigLamPyt8 = (TGraphErrors*) fPyt8->Get("h_RSigLam"); 
-
+    
+  //  TFile *fPyt8 = TFile::Open("RSigLamGen-v2-pyt8.root");
+  //TGraphErrors *hRSigLamPyt8 = (TGraphErrors*) fPyt8->Get("h_RSigLam");
+   // hRSigLamPyt8->SetLineColor(4);
    
+    TGraphErrors *hRSigLamPyt8 = new TGraphErrors(9);
+    hRSigLamPyt8->SetName("hRSigLamPyt8");
+    hRSigLamPyt8->SetTitle("hRSigLamPyt8");
+    hRSigLamPyt8->SetFillColor(1);
+    
+    hRSigLamPyt8->SetLineColor(4);
+    hRSigLamPyt8->SetLineWidth(2);
+ //   hRSigLamPyt8->SetPoint(0,0.25,0.4904651);
+ //   hRSigLamPyt8->SetPointError(0,0.05,0.0005121884);
+    hRSigLamPyt8->SetPoint(1,0.7,0.3007051);
+    hRSigLamPyt8->SetPointError(1,0.4,0.0004952473);
+    hRSigLamPyt8->SetPoint(2,1.35,0.3203976);
+    hRSigLamPyt8->SetPointError(2,0.25,0.001151183);
+    hRSigLamPyt8->SetPoint(3,1.8,0.3437061);
+    hRSigLamPyt8->SetPointError(3,0.2,0.001692323);
+    hRSigLamPyt8->SetPoint(4,2.2,0.3485103);
+    hRSigLamPyt8->SetPointError(4,0.2,0.002285309);
+    hRSigLamPyt8->SetPoint(5,2.6,0.343408);
+    hRSigLamPyt8->SetPointError(5,0.2,0.002992146);
+    hRSigLamPyt8->SetPoint(6,3.1,0.3655896);
+    hRSigLamPyt8->SetPointError(6,0.3,0.004385994);
+    hRSigLamPyt8->SetPoint(7,3.7,0.3391241);
+    hRSigLamPyt8->SetPointError(7,0.3,0.006220357);
+    hRSigLamPyt8->SetPoint(8,4.5,0.3144913);
+    hRSigLamPyt8->SetPointError(8,0.5,0.008859374);
+    hRSigLamPyt8->SetPoint(9,6.5,0.334275);
+    hRSigLamPyt8->SetPointError(9,1.5,0.01854652);
+    
+    TH1F *Graph_Graph2 = new TH1F("Graph_Graph2","Graph",100,0,8.78);
+    hRSigLamPyt8->SetHistogram(Graph_Graph2);
 
  
 //  gStyle->SetOptDate(0);
@@ -51,6 +112,11 @@ void plotSigLamPtRatio_v2(){
   gStyle->SetFitFormat("5.3g") ;
 
   gStyle->SetOptStat(0);
+    
+    gStyle->SetPadTickX(1);
+    gStyle->SetPadTickY(1);
+    gStyle->SetFuncWidth(2);
+    gStyle->SetLineWidth(2);
   //  hSys->Draw();
   //  hStat->Draw();
   
@@ -73,83 +139,34 @@ void plotSigLamPtRatio_v2(){
   box->SetXTitle("#it{p}_{T} (GeV/#it{c})");
   box->SetYTitle("(#Sigma^{0} + #bar{#Sigma^{0}}) / 2#Lambda");
   box->SetTitleSize(0.01,"Y");
-  box->SetTitleOffset(1.0,"Y");
+  box->SetTitleOffset(1.1,"Y");
   box->SetTitleSize(0.05,"Y");
-  box->SetLabelSize(0.03,"Y");
+  box->SetLabelSize(0.05,"Y");
 
-  box->SetTitleOffset(0.8,"X");
-  box->SetLabelSize(0.03,"X");
+  box->SetTitleOffset(1.1,"X");
+  box->SetLabelSize(0.05,"X");
   box->SetTitleSize(0.05,"X");
 
   box->SetMaximum(1.5) ;
   box->SetMinimum(0.0001) ;
 
-  h_RatioSigLam-> SetMarkerStyle(21);
-  h_RatioSigLam-> SetMarkerColor(kBlue+2);
-  h_RatioSigLam->  SetLineColor(kBlue+2);
+  h_RatioSigLam-> SetMarkerStyle(20);
+  h_RatioSigLam-> SetMarkerColor(1);
+  h_RatioSigLam->  SetLineColor(1);
  
 
-  TCanvas * cLam = new TCanvas("cLam","Data-MC-ratio",10,10,800,800) ;
+  TCanvas * cLam = new TCanvas("cLam","Data-MC-ratio",10,10,800,600) ;
   cLam->SetFillColor(0) ;
   cLam->SetFillStyle(0) ;
   cLam->Range(0,0,1,1);
   cLam->SetBorderSize(0);
  
-const Int_t fillColors[] = {kGray+1,  kRed-10, kBlue-9, kGreen-8, kMagenta-9, kOrange-9,kCyan-8,kYellow-7}; // for syst bands
-const Int_t colors[]     = {kBlack, kRed+1 , kBlue+1, kGreen+3, kMagenta+1, kOrange-1,kCyan+2,kYellow+2};
-const Int_t markers[]    = {kFullCircle, kFullSquare,kOpenCircle,kOpenSquare,kOpenDiamond,kOpenCross,kFullCross,kFullDiamond,kFullStar,kOpenStar};
+//const Int_t fillColors[] = {kGray+1,  kRed-10, kBlue-9, khRSigLamPyt6en-8, kMagenta-9, kOrange-9,kCyan-8,kYellow-7}; // for syst bands
+//const Int_t colors[]     = {kBlack, kRed+1 , kBlue+1, khRSigLamPyt6en+3, kMagenta+1, kOrange-1,kCyan+2,kYellow+2};
+//const Int_t markers[]    = {kFullCircle, kFullSquare,kOpenCircle,kOpenSquare,kOpenDiamond,kOpenCross,kFullCross,kFullDiamond,kFullStar,kOpenStar};
 
 
 
- /*   boxL->Draw();
-   h_SigSpec->Draw("E1same") ;
-    h_LamSpec->Draw("PE2same") ;
-   h_LamSpecStat->Draw("E1same") ;
-  data_syst ->Draw("PE2same");
- */
-
-  // TLatex *   text = new TLatex(xmin,ymin, logo ? "ALICE Preliminary" : "ALICE");
-  //  text->SetTextSizePixels(12);
- /*  TLatex * text = new TLatex (0.155,0.87,"ALICE, pp #sqrt{#it{s}} = 7 TeV (INEL)");
-  text->SetTextSize(0.065);
-  text.SetNDC();
-  text->SetTextFont(42);
-  text->Draw();
-
-   TLatex * text3 = new TLatex (0.20,0.78,"#Sigma^{0} #rightarrow #Lambda #gamma,  #bar{#Sigma^{0}} #rightarrow #bar{#Lambda} #gamma");
-  text3.SetNDC();
-  text3->SetTextSize(0.07);
-  text3->SetTextFont(42);
-  // text3->Draw();
-
-   TLatex * text2 = new TLatex (0.45,0.55,"Uncertainties: stat. (bars), sys. (boxes)");
-  text2.SetNDC();
-  text2->SetTextSize(0.04);
-  text2->SetTextFont(42);
-  text2->Draw();
- */
-
-   /*
-   hSys2->SetFillStyle(0) ;
-   hSys2->SetLineColor(1) ;
-   hSys2->Draw("E2same") ;
-   hStat2->SetMarkerColor(13) ;
-   hStat2->SetMarkerStyle(24) ;
-   hStat2->Draw("same") ;
-   */
-   //   fit->Draw("same") ;
-   //  ALICEPreliminary(spectrum_1) ;
- /* spectrum_1->cd() ;
-   //  fitText->Draw() ;
-   //   TLegend * l = new TLegend(0.55,0.65,0.9,0.85) ;
-   TLegend * l = new TLegend(0.45,0.65,0.65, 0.75) ;
-   l->SetFillColor(0) ;
-   l->AddEntry(h_SigSpec,"(#Sigma^{0} + #bar{#Sigma}^{0}) / 2","pl") ;
-   l->AddEntry(h_LamSpec,"#Lambda","pl") ;
-   //   l->AddEntry(fit,"Tsalis fit 5<p_{t}<25.","l") ;
-   // l->SetFrameColor(1) ;
-   l->Draw() ;
- */
 
    cLam->cd() ;
    TPad *spectrum_2 = new TPad("spectrum_2", "spectrum_2",0.001,0.01,0.99,0.99);
@@ -161,25 +178,27 @@ const Int_t markers[]    = {kFullCircle, kFullSquare,kOpenCircle,kOpenSquare,kOp
    spectrum_2->Range(0,0,1,1);
    spectrum_2->SetFillColor(0);
    spectrum_2->SetBorderSize(1);
-   spectrum_2->SetTopMargin(0.0);
-   spectrum_2->SetBottomMargin(0.10);
+   spectrum_2->SetTopMargin(0.05);
+   spectrum_2->SetBottomMargin(0.12);
    spectrum_2->SetLeftMargin(0.12);
-   spectrum_2->SetRightMargin(0.01);
+   spectrum_2->SetRightMargin(0.05);
    spectrum_2->cd() ;
 
    SetStyle();
 
-Int_t icolor=2;
-h_RatioStatSigLam ->SetMarkerColor(colors[icolor]);
-h_RatioStatSigLam->SetFillColor(fillColors[icolor]);
+//Int_t icolor=2;
+h_RatioStatSigLam ->SetMarkerColor(1);
+h_RatioStatSigLam->SetFillColor(1);
 h_RatioStatSigLam->SetFillStyle(0);
-h_RatioStatSigLam->SetLineColor(colors[icolor]);
+h_RatioStatSigLam->SetLineColor(1);
+h_RatioStatSigLam->SetMarkerSize(1.);
+    h_RatioStatSigLam->SetMarkerStyle(20);
 h_RatioStatSigLam->SetLineWidth(1.);
 
-h_RatioSigLam ->SetMarkerColor(colors[icolor]);
-h_RatioSigLam->SetFillColor(fillColors[icolor]);
+h_RatioSigLam ->SetMarkerColor(1);
+h_RatioSigLam->SetFillColor(1);
 h_RatioSigLam->SetFillStyle(0);
-h_RatioSigLam->SetLineColor(colors[icolor]);
+h_RatioSigLam->SetLineColor(1);
 h_RatioSigLam->SetLineWidth(1.);
 
    box->Draw() ;
@@ -189,34 +208,30 @@ h_RatioSigLam->SetLineWidth(1.);
    hRSigLamPyt6->Draw("Esame");
    hRSigLamPyt8->Draw("Esame");
 
-  TLatex * text = new TLatex (0.25,0.90,"ALICE, pp #sqrt{#it{s}} = 7 TeV (INEL)");
+  TLatex * text = new TLatex (0.5,1.35,"ALICE, pp, #sqrt{#it{s}} = 7 TeV (INEL)");
   Double_t xmin =  0.18 ; Double_t ymin= 0.68 ;
   Int_t logo=0 ;
   text->SetTextSize(0.05);
- // text.SetNDC();
   text->SetTextFont(42);
   text->Draw("same");
 
-  TLegend * l = new TLegend(0.15,0.63,0.55,0.83) ;
+  TLegend * l = new TLegend(0.15,0.6,0.4,0.83) ;
+    l->SetTextSize(0.045);
    l->SetFillColor(0) ;
-   l->AddEntry(h_RatioSigLam,"Data","pl") ;
-   l->AddEntry(hRSigLamPyt6,"PYTHIA-6 Perugia-2011","pl") ; 
-   l->AddEntry(hRSigLamPyt8,"PYTHIA-8 Monash-2013","pl") ;
+    TLegendEntry *entry = l->AddEntry("NULL","Data","lp") ;
+   entry->SetMarkerStyle(20);
+   entry->SetMarkerSize(1.0);
+    
+   entry = l->AddEntry(hRSigLamPyt6,"PYTHIA-6 Perugia-2011","pl") ;
+   entry = l->AddEntry(hRSigLamPyt8,"PYTHIA-8 Monash-2013","pl") ;
    //   l->AddEntry(fit,"Tsalis fit 5<p_{t}<25.","l") ;
    // l->SetFrameColor(1) ;
    l->Draw() ;
 
 
-
-
-   //   hSysRatio->Draw("sameE2") ;
-   // hStatRatio->Draw("same") ;
-   //   hSysRatio2->SetFillStyle(0) ;
-   //   hSysRatio2->SetLineColor(1) ;
-   //   hSysRatio2->Draw("sameE2") ;
-   //   hStatRatio2->SetMarkerColor(1) ;
-   //   hStatRatio2->SetMarkerStyle(24) ;
-   //   hStatRatio2->Draw("same") ;
+    cLam->SaveAs("Figure4.pdf");
+    cLam->SaveAs("Figure4.C");
+    
 
 }
 //-----------------------------------------------------------------------------
@@ -284,7 +299,7 @@ void SetStyle(Bool_t graypalette) {
   gStyle->SetHistLineWidth(1);
   gStyle->SetHistLineColor(kRed);
   gStyle->SetFuncWidth(2);
-  gStyle->SetFuncColor(kGreen);
+ // gStyle->SetFuncColor(khRSigLamPyt6en);
   gStyle->SetLineWidth(2);
   gStyle->SetLabelSize(0.045,"xyz");
   gStyle->SetLabelOffset(0.015,"y");
@@ -292,7 +307,7 @@ void SetStyle(Bool_t graypalette) {
   gStyle->SetLabelColor(kBlack,"xyz");
   gStyle->SetTitleSize(0.05,"xyz");
   gStyle->SetTitleOffset(1.25,"y");
-  gStyle->SetTitleOffset(1.2,"x");
+  gStyle->SetTitleOffset(1.25,"x");
   gStyle->SetTitleFillColor(kWhite);
   gStyle->SetTextSizePixels(26);
   gStyle->SetTextFont(42);
