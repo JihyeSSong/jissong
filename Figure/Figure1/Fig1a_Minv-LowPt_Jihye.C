@@ -515,7 +515,7 @@
    tex->Draw();
   
    
-   TLegend *leg = new TLegend(0.5,0.2,0.7,0.35,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.5,0.2,0.65,0.35,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetLineColor(1);
    leg->SetLineStyle(1);

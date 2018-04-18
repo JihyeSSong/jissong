@@ -1,6 +1,6 @@
 {
 //=========Macro generated from canvas: cM/Data-MC-ratio
-//=========  (Mon Apr 16 16:05:04 2018) by ROOT version5.34/30
+//=========  (Mon Apr 16 18:19:03 2018) by ROOT version5.34/30
    TCanvas *cM = new TCanvas("cM", "Data-MC-ratio",168,67,800,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -428,7 +428,7 @@
    spline3->SetPoint(16,8.05,3.402667e-06);
    spline3->SetPointCoeff(16,-2.633607e-06,0.55,0.475319);
    spline3->Draw("lsame");
-      tex = new TLatex(0.65,0.05,"ALICE, pp #sqrt{#it{s}} = 7 TeV (INEL)");
+      tex = new TLatex(0.65,0.05,"ALICE, pp, #sqrt{#it{s}} = 7 TeV (INEL)");
    tex->SetTextFont(42);
    tex->SetTextSize(0.06);
    tex->SetLineWidth(2);

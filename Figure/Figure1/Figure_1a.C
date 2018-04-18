@@ -1,6 +1,6 @@
 {
 //=========Macro generated from canvas: can/can
-//=========  (Mon Apr 16 14:58:56 2018) by ROOT version5.34/30
+//=========  (Mon Apr 16 18:14:35 2018) by ROOT version5.34/30
    TCanvas *can = new TCanvas("can", "can",2,48,800,600);
    gStyle->SetOptTitle(0);
    can->Range(1.15887,-95.45454,1.226403,540.9091);
@@ -528,7 +528,7 @@
    tex->SetLineWidth(2);
    tex->Draw();
    
-   TLegend *leg = new TLegend(0.5,0.2,0.7,0.35,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.5,0.2,0.65,0.35,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.05);
    leg->SetLineColor(1);
