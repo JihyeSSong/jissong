@@ -4,7 +4,7 @@ void DrawLogo (Int_t logo=0, Double_t xmin =  0.28, Double_t ymin= 0.68, Double_
 void FakeHistosOnlyForExample(TH1*&hstat, TH1*&hsyst, TH1*&hsystCorr);
 // void LoadLibs();
 
-void SigDataMCRatio_Pyt8Monash(){
+void Fig3_SigDataMCRatio_Pyt8Monash(){
 
   SetStyle();
 
