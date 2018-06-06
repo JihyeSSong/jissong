@@ -1,0 +1,189 @@
+// this is for systematic study
+
+const int ptbin = 8;
+double ptedges[ptbin+1+1]={0};
+double ptedges_Sigma[ptbin+1] = { 1.0, 1.5, 2.0, 2.4, 2.8, 3.2, 4., 6.0, 10.0 };
+double pt_points[ptbin] = {1.25, 1.75, 2.2, 2.6, 3.0, 3.6, 5., 8};
+double pt_points_e[ptbin] = {.25, .25, .2, .2, .2, .4, 1., 2. };
+double yMpol2[ptbin+1]={0};
+double yMpol2_e[ptbin+1]={0};
+double yMpol3[ptbin+1]={0};
+double yMpol3_e[ptbin+1]={0};
+double yMpol4[ptbin+1]={0};
+double yMpol4_e[ptbin+1]={0};
+
+void Systematics(){
+    
+    for(int i=0; i<ptbin+1; i++){
+        
+        if(i==0) ptedges[i]=0;
+        else {
+            ptedges[i] = ptedges_Sigma[i-1];
+            ptedges[ptbin+1] = ptedges_Sigma[ptbin];
+        }
+    }
+    
+    
+    
+   // TFile *fmix = TFile::Open("Sigma0_mix.root");
+    TFile *fmix = TFile::Open("Sigma0.root");
+
+    TFile *fpol2 = TFile::Open("Sigma0_pol2.root");
+    TFile *fpol3 = TFile::Open("Sigma0_pol3.root");
+    TFile *fpol4 = TFile::Open("Sigma0_pol4.root");
+    
+    
+    TH1D *hmix = (TH1D*)fmix->Get("h_Rawspectrum");
+    hmix->SetMarkerStyle(20);
+    hmix->SetLineColor(1);
+    hmix->SetTitle("Mixed BG");
+    TH1D *hpol2 = (TH1D*)fpol2->Get("h_Rawspectrum");
+    hpol2->SetMarkerStyle(21);
+    hpol2->SetLineColor(2);
+    hpol2->SetTitle("Pol2 BG");
+
+    TH1D *hpol3 = (TH1D*)fpol3->Get("h_Rawspectrum");
+    hpol3->SetMarkerStyle(22);
+    hpol3->SetLineColor(3);
+    hpol3->SetTitle("Pol3 BG");
+
+    TH1D *hpol4 = (TH1D*)fpol4->Get("h_Rawspectrum");
+    hpol4->SetMarkerStyle(23);
+    hpol4->SetLineColor(4);
+    hpol4->SetTitle("Pol4 BG");
+
+    
+    
+    
+    for(int ii=2; ii<ptbin+2; ii++) {
+        double mix = 0;
+        double pol2 = 0;
+        double pol3 = 0;
+        double pol4 = 0;
+        
+        double d1 = 0;
+        double d2 = 0;
+        double d3 = 0;
+        
+        
+        mix =hmix->GetBinContent(ii);
+        pol2 =hpol2->GetBinContent(ii);
+        pol3 =hpol3->GetBinContent(ii);
+        pol4 =hpol4->GetBinContent(ii);
+        
+        d1 = abs(pol2-mix);
+        d2 = abs(pol3-mix);
+        d3 = abs(pol4-mix);
+        
+        cout << "  bin num = " << ii << "  diff pol2 - mix = " << d1 << endl;
+        cout << "  bin num = " << ii << "  diff pol3 - mix = " << d2 << endl;
+        cout << "  bin num = " << ii << "  diff pol4 - mix = " << d3 << endl;
+
+        
+        if(d1 ==0){
+            yMpol2[ii] = d1; // 0
+            yMpol2_e[ii] = d1;
+        }else{
+            yMpol2[ii] = d1/mix;
+            yMpol2_e[ii]=yMpol2[ii]*sqrt(sqrt(d1)/d1*sqrt(d1)/d1+sqrt(mix)/mix*sqrt(mix)/mix);
+        }
+        
+        
+        if(d2 ==0){
+            yMpol3[ii] = d2;
+            yMpol3_e[ii] = d2;
+        }else{
+            yMpol3[ii] = d2/mix;
+            yMpol3_e[ii]=yMpol3[ii]*sqrt(sqrt(d2)/d2*sqrt(d2)/d2+sqrt(mix)/mix*sqrt(mix)/mix);
+            
+        }
+        
+        
+        if(d3 ==0){
+            yMpol4[ii] = d3;
+            yMpol4_e[ii] = d3;
+        }else{
+            yMpol4[ii] = d3/mix;
+            yMpol4_e[ii]=yMpol4[ii]*sqrt(sqrt(d3)/d3*sqrt(d3)/d3+sqrt(mix)/mix*sqrt(mix)/mix);
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
+    TCanvas *RawYield_tot = new TCanvas("RawYield_tot","Sigma0 raw yield",0,0,800,1000);
+    RawYield_tot->cd();
+    fmix->Draw("");
+    fpol2->Draw("same");
+    fpol3->Draw("same");
+    fpol4->Draw("same");
+    RawYield_tot->BuildLegend(0.78,0.4,0.98,0.75,"");
+ 
+    
+    TH1D *hdiff = new TH1D("hdiff","pol2 - mix",ptbin+1,ptedges);
+      hdiff->SetLineColor(2);
+      hdiff->SetLineWidth(2);
+      hdiff->SetMinimum(0.);
+      hdiff->SetMaximum(0.5);
+      hdiff->SetTitle("Pol2 - mix");
+
+    for(int i=2; i<ptbin+2; i++) {
+        hdiff->SetBinContent(i,yMpol2[i]);
+        hdiff->SetBinError(i,yMpol2_e[i]);
+    }
+    
+    
+    TH1D *hdiff1 = new TH1D("hdiff1","pol3 - mix",ptbin+1,ptedges);
+    hdiff1->SetLineColor(3);
+    hdiff1->SetLineWidth(2);
+    hdiff1->SetMinimum(0.);
+    hdiff1->SetMaximum(0.5);
+    hdiff1->SetTitle("Pol3 - mix");
+
+    for(int i=2; i<ptbin+2; i++) {
+        hdiff1->SetBinContent(i,yMpol3[i]);
+        hdiff1->SetBinError(i,yMpol3_e[i]);
+    }
+    
+    
+    TH1D *hdiff2 = new TH1D("hdiff2","pol4 - mix",ptbin+1,ptedges);
+    hdiff2->SetLineColor(4);
+    hdiff2->SetLineWidth(2);
+    hdiff2->SetMinimum(0.);
+    hdiff2->SetMaximum(0.5);
+    hdiff2->SetTitle("Pol4 - mix");
+
+    for(int i=2; i<ptbin+2; i++) {
+        hdiff2->SetBinContent(i,yMpol4[i]);
+        hdiff2->SetBinError(i,yMpol4_e[i]);
+
+    }
+    
+    
+    
+    
+     TCanvas *Diff_tot = new TCanvas("Diff_tot","Sigma0 diff",0,0,800,1000);
+     Diff_tot->cd();
+     hdiff->Draw("E");
+     hdiff1->Draw("Esame");
+     hdiff2->Draw("Esame");
+     Diff_tot->BuildLegend(0.78,0.6,0.98,0.75,"");
+
+    
+    
+    
+    
+    // output file //
+    
+    TFile *fout = TFile::Open("Syst_fitFunction.root","RECREATE");
+    RawYield_tot->Write("RawYield_tot");
+    Diff_tot->Write("Difference");
+    hdiff->Write("hdiff");
+    hdiff1->Write("hdiff1");
+    hdiff2->Write("hdiff2");
+
+    
+}

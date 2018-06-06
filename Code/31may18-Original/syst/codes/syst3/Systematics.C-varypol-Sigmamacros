@@ -1,0 +1,298 @@
+
+// this is for systematic study
+
+const int ptbin = 8;
+double ptedges[ptbin+1+1]={0};
+double ptedges_Sigma[ptbin+1] = { 1.0, 1.5, 2.0, 2.4, 2.8, 3.2, 4., 6.0, 10.0 };
+double pt_points[ptbin] = {1.25, 1.75, 2.2, 2.6, 3.0, 3.6, 5., 8};
+double pt_points_e[ptbin] = {.25, .25, .2, .2, .2, .4, 1., 2. };
+double yMpol1[ptbin+1]={0};
+double yMpol1_e[ptbin+1]={0};
+double yMpol2[ptbin+1]={0};
+double yMpol2_e[ptbin+1]={0};
+double yMpol3[ptbin+1]={0};
+double yMpol3_e[ptbin+1]={0};
+double yMpol4[ptbin+1]={0};
+double yMpol4_e[ptbin+1]={0};
+double yMpol5[ptbin+1]={0};
+double yMpol5_e[ptbin+1]={0};
+
+
+void Systematics(){
+    
+    for(int i=0; i<ptbin+1; i++){
+        
+        if(i==0) ptedges[i]=0;
+        else {
+            ptedges[i] = ptedges_Sigma[i-1];
+            ptedges[ptbin+1] = ptedges_Sigma[ptbin];
+        }
+    }
+    
+    //    TH1F *hRatDiff = new TH1F("hRatDiff","; Ratio", 100, -15, 15.);  
+
+   TH1F *hRatDiff = new TH1F("hRatDiff","; Ratio", 100, 0, 25.);  
+   TH1F *hStatDiff = new TH1F("hStatDiff","; Ratio", 100, 0, 25.);  
+
+
+    
+   // TFile *fmix = TFile::Open("Sigma0_mix.root");
+    TFile *fmix = TFile::Open("Sigma0-pol2-7jul15.root");
+
+    TFile *fpol1 = TFile::Open("Sigma0-pol1-7jul15.root");
+    TFile *fpol3 = TFile::Open("Sigma0-pol3-7jul15.root");
+    TFile *fpol4 = TFile::Open("Sigma0-pol4-7jul15.root");
+    TFile *fpol5 = TFile::Open("Sigma0-pol5-7jul15.root");
+    
+    
+    TH1D *hmix = (TH1D*)fmix->Get("h_Rawspectrum");
+    hmix->SetMarkerStyle(25);
+    hmix->SetLineColor(2);
+    hmix->SetMarkerColor(2);
+    hmix->SetTitle("DF POL2 BG");
+    TH1D *hpol1 = (TH1D*)fpol1->Get("h_Rawspectrum");
+    hpol1->SetMarkerStyle(21);
+    hpol1->SetLineColor(1);
+    hpol1->SetTitle("Pol1 BG");
+
+    TH1D *hpol3 = (TH1D*)fpol3->Get("h_Rawspectrum");
+    hpol3->SetMarkerStyle(22);
+    hpol3->SetLineColor(3);
+    hpol3->SetTitle("Pol3 BG");
+
+    TH1D *hpol4 = (TH1D*)fpol4->Get("h_Rawspectrum");
+    hpol4->SetMarkerStyle(23);
+    hpol4->SetLineColor(4);
+    hpol4->SetTitle("Pol4 BG");
+
+    TH1D *hpol5 = (TH1D*)fpol5->Get("h_Rawspectrum");
+    hpol5->SetMarkerStyle(24);
+    hpol5->SetLineColor(6);
+    hmix->SetMarkerColor(6);
+    hpol5->SetTitle("Pol5 BG");
+
+    
+    
+    
+    for(int ii=2; ii<ptbin+2; ii++) {
+        double mix = 0;
+        double pol1 = 0;
+        double pol3 = 0;
+        double pol4 = 0;
+        double pol5 = 0;
+        
+
+        double d1 = 0;
+        double d2 = 0;
+        double d3 = 0;
+        double d4 = 0;
+        double d5 = 0;
+        
+        
+        mix =hmix->GetBinContent(ii);
+        pol1 =hpol1->GetBinContent(ii);
+        pol3 =hpol3->GetBinContent(ii);
+        pol4 =hpol4->GetBinContent(ii);
+	pol5 =hpol5->GetBinContent(ii);
+
+        
+        d1 = pol1-mix;
+	//        d2 = abs(pol2-mix);
+        d3 = pol3-mix;        
+        d4 = pol4-mix;        
+        d5 = pol5-mix;
+        
+	emix = sqrt(mix);
+	epol1 =  sqrt(pol1);
+	epol3 =  sqrt(pol3);
+	epol4 =  sqrt(pol4);
+	epol5 =  sqrt(pol5);
+
+	ed1 = sqrt( epol1*epol1 + emix*emix);
+	ed3 = sqrt( epol3*epol3 + emix*emix);
+	ed4 = sqrt( epol4*epol4 + emix*emix);
+	ed5 = sqrt( epol5*epol5 + emix*emix);
+	//	ed1 = sqrt( epol1*epol1 + emix*emix);
+
+        ratdiff1 = fabs( d1/ sqrt( fabs( epol1*epol1 - emix*emix) ) );
+        ratdiff3 = fabs( d3/ sqrt( fabs( epol3*epol3 - emix*emix) ) );
+        ratdiff4 = fabs( d4/ sqrt( fabs( epol4*epol4 - emix*emix) ) );
+        ratdiff5 = fabs( d5/ sqrt( fabs( epol5*epol5 - emix*emix) ) );
+
+        statdiff1 = ed1/ sqrt( fabs( epol1*epol1 - emix*emix) );
+        statdiff3 = ed3/ sqrt( fabs( epol3*epol3 - emix*emix) );
+        statdiff4 = ed4/ sqrt( fabs( epol4*epol4 - emix*emix) );
+        statdiff5 = ed5/ sqrt( fabs( epol5*epol5 - emix*emix) );
+
+
+       	hRatDiff->Fill(ratdiff1);
+	hRatDiff->Fill(ratdiff3);
+	hRatDiff->Fill(ratdiff4);
+	hRatDiff->Fill(ratdiff5);
+ 
+
+       	hStatDiff->Fill(statdiff1);
+	hStatDiff->Fill(statdiff3);
+	hStatDiff->Fill(statdiff4);
+	hStatDiff->Fill(statdiff5);
+ 
+
+
+
+        cout << "  bin num = " << ii << "  diff pol1 - mix = " << d1 << endl;
+        cout << "  bin num = " << ii << "  diff pol3 - mix = " << d3 << endl;
+        cout << "  bin num = " << ii << "  diff pol4 - mix = " << d4 << endl;
+        cout << "  bin num = " << ii << "  diff pol5 - mix = " << d5 << endl;
+        
+        if(d1 ==0){
+            yMpol1[ii] = d1; // 0
+            yMpol1_e[ii] = d1;
+        }else{
+            yMpol1[ii] = d1/mix;
+            yMpol1_e[ii]=1.e-4 ; // *yMpol1[ii]*sqrt(sqrt(d1)/d1*sqrt(d1)/d1+sqrt(mix)/mix*sqrt(mix)/mix);
+        }
+        
+        
+        if(d3 ==0){
+            yMpol3[ii] = d3;
+            yMpol3_e[ii] = d3;
+        }else{
+            yMpol3[ii] = d3/mix;
+            yMpol3_e[ii]=1.e-4 ; // *yMpol3[ii]*sqrt(sqrt(d3)/d3*sqrt(d3)/d3+sqrt(mix)/mix*sqrt(mix)/mix);            
+        }
+        
+        if(d4 ==0){
+            yMpol4[ii] = d4;
+            yMpol4_e[ii] = d4;
+        }else{
+            yMpol4[ii] = d4/mix;
+            yMpol4_e[ii]=1.e-4; // *yMpol4[ii]*sqrt(sqrt(d4)/d2*sqrt(d4)/d2+sqrt(mix)/mix*sqrt(mix)/mix);
+            
+        }
+        
+        
+        if(d5 ==0){
+            yMpol5[ii] = d5;
+            yMpol5_e[ii] = d5;
+        }else{
+            yMpol5[ii] = d5/mix;
+            yMpol5_e[ii]=1.e-4 ; // *yMpol5[ii]*sqrt(sqrt(d5)/d5*sqrt(d5)/d5+sqrt(mix)/mix*sqrt(mix)/mix);            
+        }                
+        
+    }
+    
+    printf("diff calc done---------> \n");    
+    
+    TCanvas *RawYield_tot = new TCanvas("RawYield_tot","Sigma0 raw yield",0,0,800,1000);
+    RawYield_tot->cd();
+    fmix->Draw("");
+    fpol1->Draw("same");
+    fpol3->Draw("same");
+    fpol4->Draw("same");
+    fpol5->Draw("same");
+    RawYield_tot->BuildLegend(0.78,0.4,0.98,0.75,"");
+ 
+    
+    
+    
+    TH1D *hdiff1 = new TH1D("hdiff1","pol1 - mix",ptbin+1,ptedges);
+    hdiff1->SetLineColor(1);
+    hdiff1->SetLineWidth(2);
+    hdiff1->SetMinimum(0.001);
+    hdiff1->SetMaximum(1.5);
+    hdiff1->SetMarkerSize(2.5);
+    hdiff1->SetMarkerStyle(21);
+    hdiff1->SetTitle("Pol1 - mix");
+
+    for(int i=2; i<ptbin+2; i++) {
+        hdiff1->SetBinContent(i,yMpol1[i]);
+        hdiff1->SetBinError(i,yMpol1_e[i]);
+    }
+    
+     
+    
+    TH1D *hdiff3 = new TH1D("hdiff3","pol3 - mix",ptbin+1,ptedges);
+    hdiff3->SetLineColor(3);
+    hdiff3->SetLineWidth(2);
+    hdiff3->SetMinimum(0.001);
+    hdiff3->SetMaximum(1.5);
+    hdiff3->SetTitle("Pol3 - mix");
+    hdiff3->SetMarkerSize(2.5);
+    hdiff3->SetMarkerStyle(23);
+   for(int i=2; i<ptbin+2; i++) {
+        hdiff3->SetBinContent(i,yMpol3[i]);
+        hdiff3->SetBinError(i,yMpol3_e[i]);
+
+    }
+    
+    TH1D *hdiff4 = new TH1D("hdiff4","pol4 - mix",ptbin+1,ptedges);
+    hdiff4->SetLineColor(4);
+    hdiff4->SetLineWidth(2);
+    hdiff4->SetMinimum(0.001);
+    hdiff4->SetMaximum(1.5);
+    hdiff4->SetTitle("Pol4 - mix");
+    hdiff4->SetMarkerSize(2.5);
+    hdiff4->SetMarkerStyle(24);
+
+    for(int i=2; i<ptbin+2; i++) {
+      hdiff4->SetBinContent(i,yMpol4[i]);
+      hdiff4->SetBinError(i,yMpol4_e[i]);
+    }
+       
+    TH1D *hdiff5 = new TH1D("hdiff5","pol5 - mix",ptbin+1,ptedges);
+    hdiff5->SetLineColor(5);
+    hdiff5->SetLineWidth(2);
+    hdiff5->SetMinimum(0.001);
+    hdiff5->SetMaximum(1.5);
+    hdiff5->SetTitle("Pol5 - mix");
+    hdiff5->SetMarkerSize(2.5);
+    hdiff5->SetMarkerColor(5);
+    hdiff5->SetMarkerStyle(25);
+    for(int i=2; i<ptbin+2; i++) {
+      hdiff5->SetBinContent(i,yMpol5[i]);
+      hdiff5->SetBinError(i,yMpol5_e[i]);
+    }
+   
+     printf("diff  done---------> \n");    
+
+  
+     TCanvas *Diff_tot = new TCanvas("Diff_tot","Sigma0 diff",0,0,800,1000);
+     Diff_tot->cd();
+     //     Diff_tot->SetLogy(1);
+
+       hdiff1->Draw("E");
+     hdiff3->Draw("Esame");
+     hdiff4->Draw("Esame");
+     hdiff5->Draw("Esame");
+
+     Diff_tot->BuildLegend(0.78,0.6,0.98,0.75,"");
+
+       printf("Draw  done---------> \n");  
+    
+       //       if(1) return; 
+    
+    // output file //
+
+ TCanvas *cratdiff = new TCanvas("cratduff","Ratio of difference",0,0,800,800);
+    cratdiff->Divide(1,2);
+    cratdiff->cd (1);
+ hStatDiff->SetLineColor(kBlue);
+ // hStatDiff->SetOptStat(11111);
+ // hRatDiff->SetOptStat(11111);
+ hRatDiff->Draw("");
+ cratdiff->cd (2);
+  hStatDiff->Draw(""); 
+
+  //    cratdiff->cd (3); hRatDiff->Draw("");  hStatDiff->Draw("sameE"); 
+
+    
+    TFile *fout = TFile::Open("Syst_fitFunction.root","RECREATE");
+    RawYield_tot->Write("RawYield_tot");
+    Diff_tot->Write("Difference");
+    hdiff1->Write("hdiff1");
+    hdiff3->Write("hdiff3");
+    hdiff4->Write("hdiff4");
+    hdiff5->Write("hdiff5");
+
+     fout->Close();
+}

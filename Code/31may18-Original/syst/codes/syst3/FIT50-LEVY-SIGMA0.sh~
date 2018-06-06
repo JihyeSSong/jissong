@@ -1,0 +1,25 @@
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-bins2004-30jun15-onlystaterr.root","Sigma0", 0, 10.0, 100)'
+
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-bins2004-30jun15-bothstat.root","Sigma0", 0, 10.0, 100)'
+
+
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-polBG-gauss-8jul15.root","Sigma0", 0, 10.0, 100)'
+
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-polBG-bincount-8jul15.root","Sigma0", 0, 10.0, 100)'
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-mixBG-gaussmass-8jul15.root","Sigma0", 0, 10.0, 100)'
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-mixBG-bincount-8jul15.root","Sigma0", 0, 10.0, 100)'
+
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-RMSsyst-10jul15.root","Sigma0", 0, 10.0, 100)'
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-CONSsyst-10jul15.root","Sigma0", 0, 10.0, 100)'
+
+ root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-RMSsystONLY-10jul15.root","Sigma0", 0, 10.0, 100)'
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-CONSsystONLY-10jul15.root","Sigma0", 0, 10.0, 100)'
+
+
+
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Pt-bins2004-29jun15-totalerr.root","Sigma0", 0, 10.0, 100)'
+
+
+# root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-46-2010-Pt-bins2004-.root","Sigma0", 0, 10.0, 100)'
+
+#  root -l HistogramFit_pp7TeV_Aliphysics.C'("Sigma0AP-p2-50-2010-Ptbins2004from1.5-29jun-DT.root","Sigma0", 0, 10.0, 100)'

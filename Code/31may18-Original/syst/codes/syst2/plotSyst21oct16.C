@@ -1,0 +1,663 @@
+void plotSyst21oct16()
+{
+  PPRstyle();               //     gStyle->SetOptStat(111111);
+  gStyle->SetOptStat(0);       // global options for ALL plots
+  gStyle->SetOptFit(111);
+
+  TH1F *hRatDiff = new TH1F("hRatDiff","; Ratio", 100, -5, 5.);
+  TH1F *hRatDiffWei = new TH1F("hRatDiffWei","; RatioWei", 100, -5, 5.);
+
+
+  TH1F *boxE = new TH1F("boxE","Variation of fit",300,0.,30.);
+  boxE->SetAxisRange(0.0, 10.50, "X");
+  boxE->SetAxisRange(5.e-6, 1.e-1, "Y");
+  boxE->SetXTitle("p_{T}, GeV/c");
+  boxE->SetYTitle("(1/N_{inel}) d^{2}N/dydp_{T}, (GeV/c)^{-1}");
+  boxE->SetTitleOffset(1.35,"Y");
+  boxE->GetXaxis()->SetMoreLogLabels(1);
+  boxE->GetXaxis()->SetNoExponent(1);
+  //   boxE->Draw();
+
+
+  TCanvas *ceffi = new TCanvas("ceffi","Efficiencies",0,0,800,800);
+  ceffi->SetLogy();
+  boxE->Draw();
+
+  char fname[55], hname[55];
+  Double_t xPtd1,yPtd1, exPtd1,eyPtd1;
+  Double_t xPtd2,yPtd2, exPtd2,eyPtd2;
+
+  Int_t nBin = 9;
+  Double_t diff[9], ediff[9],reldiff[9],ereldiff[9],relstat[9],erelstat[9],pt[9],ept[9],pts[9];
+  Double_t deltacc[9], ratdiff[9];
+
+  //  TFile * f1 = new TFile("Sigma0AP-p2-50-2010-Pt-bins2004-29jun-DT.root"); 
+  /*   TFile *fpol1 = TFile::Open("Sigma0AP-p2-50-2010-Pt-polBG-gauss-8jul15.root");
+    TFile *fpol3 = TFile::Open("Sigma0AP-p2-50-2010-Pt-polBG-bincount-8jul15.root");
+    TFile *fpol4 = TFile::Open("Sigma0AP-p2-50-2010-Pt-mixBG-gaussmass-8jul15.root");
+    TFile *fpol5 = TFile::Open("Sigma0AP-p2-50-2010-Pt-mixBG-bincount-8jul15.root");
+  */
+  TFile * f1 = new TFile("Sigma0AP-p2-50-2010-Pt-polBG-gauss-8jul15.root");   // base
+  TGraphErrors  *stat1 = (TGraphErrors*)f1->Get("data_stat");
+  
+  //  TFile * f2 = new TFile("Sigma0AP-p2-50-2010-Pt-bins2014-29jun-DT.root"); 
+  //  TFile *f2 = TFile::Open("Sigma0AP-p2-50-2010-Pt-polBG-bincount-8jul15.root");
+  // TFile *f2 = TFile::Open("Sigma0AP-p2-50-2010-Pt-mixBG-gaussmass-8jul15.root");
+
+  TFile *f2 = TFile::Open("Sigma0AP-p2-50-2010-Pt-mixBG-bincount-8jul15.root");
+  TGraphErrors  *stat2 = (TGraphErrors*)f2->Get("data_stat");
+
+  Double_t fcorr = 1.0;
+
+    stat1->SetMarkerStyle(20);
+    stat1->SetMarkerSize(0.9);
+    stat1->SetMarkerColor(kRed);
+    stat1->SetLineColor(kRed); 
+    stat1->Draw("sameP");
+    
+    // if(1) return;
+    stat2->SetMarkerStyle(21);
+    stat2->SetMarkerSize(0.9);
+    stat2->SetMarkerColor(kBlue); 
+    stat2->SetLineColor(kBlue);
+    stat2->Draw("sameP");
+
+    //   if(1) return;
+
+    Int_t nBinPt = stat1->GetN();  
+
+    //   Int_t nBinPt = nBin;
+    printf("N = %d \n",nBinPt);
+    
+    //    Double_t diff[nBinPt], reldiff[nBinPt],pt[nBinPt],ept[nBinPt];
+
+    for (Int_t iPt=0; iPt< nBinPt; iPt++) {
+
+     stat1->GetPoint(iPt,xPtd1,yPtd1);
+     exPtd1 = stat1->GetErrorX(iPt) ;
+     eyPtd1 = stat1->GetErrorY(iPt) ;
+
+     //  printf("Y 1 %f  ,  %f  \n",xPtd1, yPtd1  ); 
+
+     stat2->GetPoint(iPt,xPtd2,yPtd2);
+     exPtd2 = stat2->GetErrorX(iPt) ;
+     eyPtd2 = stat2->GetErrorY(iPt) ;
+
+     //     printf("Y 1 %f  ,  %f , eY %f ,   %f \n",yPtd1, yPtd2,eyPtd1, eyPtd2  ); 
+
+     pt[iPt]= xPtd1;     ept[iPt]= exPtd1;
+     pts[iPt]= xPtd1+0.1;  
+
+     diff[iPt]= fabs( yPtd1 *fcorr - yPtd2);         
+     ediff[iPt] = sqrt( eyPtd1* eyPtd1 + eyPtd2*eyPtd2 );
+
+     reldiff[iPt] = diff[iPt]/yPtd1;
+     ereldiff[iPt] = ediff[iPt]/yPtd1 ;
+
+     relstat[iPt] =  eyPtd1 / yPtd1 ;
+     erelstat[iPt] =  eyPtd1 / yPtd1  ; 
+
+     printf("Y %f - %f = diff %f  +-  %f , reldiff  %f +-   %f \n",yPtd1,yPtd2,diff[iPt],ediff[iPt],reldiff[iPt],ereldiff[iPt]); 
+
+     // For Barlow cross-check difference in quadrature of stat errors:
+
+     deltacc[iPt] = sqrt( fabs(  eyPtd1* eyPtd1 - eyPtd2*eyPtd2 ) );    
+     printf("diff  %f   delta %f \n", diff[iPt] ,  deltacc[iPt] );
+
+     ratdiff[iPt] = ( yPtd1 *fcorr  - yPtd2)/ deltacc[iPt]   ;
+
+     hRatDiff->Fill( ratdiff[iPt]);
+
+    } 
+    TGraphErrors *hDiff      = new TGraphErrors(nBinPt,pt,diff,ept,ediff ); 
+    TGraphErrors *hRelDiff      = new TGraphErrors(nBinPt,pt,reldiff,ept,ereldiff );  
+    TGraphErrors *hRelStat      = new TGraphErrors(nBinPt,pts,relstat,ept,erelstat );  
+
+    TGraphErrors *hDelta      = new TGraphErrors(nBinPt,pts,deltacc,ept,erelstat );  
+
+    hRelDiff->Fit("pol0","","",1.,10.);
+
+
+    hDiff->SetMarkerStyle(22);
+    hDiff->SetMarkerSize(0.9); 
+    //    hDiff->Draw("sameP");
+
+
+  TH1F *boxS = new TH1F("boxS","Relative Variation, Stat: 0.083 +- 0.03",300,0.,30.);
+  boxS->SetAxisRange(0.0, 10.50, "X");
+  boxS->SetAxisRange(1.e-5, 1.e0, "Y");
+  boxS->SetXTitle("p_{T}, GeV/c");
+  boxS->SetYTitle("Effi");
+  boxS->SetTitleOffset(1.35,"Y");
+  boxS->GetXaxis()->SetMoreLogLabels(1);
+  boxS->GetXaxis()->SetNoExponent(1);
+  //   boxS->Draw();
+ 
+  TCanvas *crelsys = new TCanvas("crelsys","Rel. Syst. Error",0,0,800,800);
+  //   crelsys->SetLogy();
+  boxS->Draw();
+
+  
+
+
+  hRelDiff->SetMarkerStyle(21);
+  hRelDiff->SetMarkerSize(0.9);
+  hRelDiff->Draw("sameP");
+  hRelStat->SetMarkerStyle(20);
+  hRelStat ->SetMarkerSize(0.8);
+  hRelStat ->SetMarkerColor(kBlue);
+  hRelStat->SetLineColor(kBlue);
+  hRelStat->Draw("sameP");
+
+  /*  hDelta->SetMarkerStyle(21);
+  hDelta->SetMarkerSize(0.9);
+  hDelta->Draw("sameP");
+  hDelta->SetMarkerStyle(20);
+  hDelta->SetMarkerSize(0.8);
+  hDelta->SetMarkerColor(kMagenta);
+  hDelta->SetLineColor(kMagenta);
+  hDelta->Draw("sameP");
+  */
+
+
+  TCanvas *cratdiff = new TCanvas("cratduff","Ratio of difference",0,0,800,800);
+  
+  hRatDiff->Draw("");
+
+  fSyst = TFile::Open("SystStudy-Sigma0.root","recreate");
+
+  stat1->Write("stat1");
+  stat2->Write("stat2");
+  hDiff->Write("hDiff");
+  hRelDiff->Write("hRelDiff");
+  hRelStat->Write("hRelStat");
+  hRatDiff->Write("hRatDiff");
+  fSyst ->Close();
+
+  }
+
+//*******************************************************************************
+//***************************************************************************
+//----------------------------------------------------------------------
+TH1D *Fit1Pi0(const TH1D *hMass = 0,
+	      const TH1D *bgHist = 0,
+	      const Int_t polN = 1,        //why 2 = const, may be 5 or???
+	      const Double_t mFitMin=1.188,
+	      const Double_t mFitMax=1.198,
+	      //	      const Double_t mFitMin=1.188,
+	      // const Double_t mFitMax=1.198,
+	      const Double_t ptMax )
+{
+  // This script takes a 2D histogram hMassPt with invariant mass vs
+  // pt of cluster pairs:
+  // - slices them along pt bins,
+  // - fits 1D invariant mass specrta by Gaussian+polynomial
+  // - calculates the number of pi0's as an integral of Gaussian
+  // - calculates background under pi0 as an integral of polynomial
+
+  printf("FIT1-input PolN %d mFitmin %f mFitmax %f  ptMax %f \n", polN, mFitMin, mFitMax,  ptMax );
+
+  //  hMass->Draw();
+
+   TF1 *fitfun = 0;
+   fitfun = new TF1("fitfun",CombiBG, 1.17, 1.21, 6);
+   fitfun->SetLineColor(kRed);
+   fitfun->SetLineWidth(1);  
+   fitfun->SetParName(0,"a_{0}");
+   fitfun->SetParName(1,"a_{1}");
+   fitfun->SetParName(2,"a_{2}");
+   fitfun->SetParName(3,"a_{3}");
+   fitfun->SetParName(4,"a_{4}");
+   fitfun->SetParName(5,"a_{5}");
+
+
+//   //  TH1D *hMassSub = (TH1D*)fitfun->Clone("hMassSub");
+
+   Int_t   nM     = hMass->GetNbinsX();
+   Float_t mMin   = hMass->GetXaxis()->GetXmin();
+   Float_t mMax   = hMass->GetXaxis()->GetXmax();
+
+//   //  mFitMin = 1.17 ; mFitMax = 1.22;
+//   //  Float_t mMin   = mFitMin; //   //  Float_t mMax   = mFitMax;
+//   if ( ptMax <= 1.8 ) {      mMin=1.190 ;     mMax=1.192 ;         }
+
+   Float_t mStep  = (mMax-mMin)/nM;
+   hMass->SetXTitle("M_{#Lambda#gamma}, GeV/c");
+   hMass->SetAxisRange(1.175,1.21);   // External Min&Max regions of BG fit are here, internal - in CombiBG
+
+   //20aug14abb   if( ptMax <= 1.5 )   hMass->SetAxisRange(1.183,1.199);  
+ if( ptMax <= 1.5 )   hMass->SetAxisRange(1.180,1.204);  
+
+
+   Float_t nPi0Max = hMass->Integral(hMass->FindBin(1.186), hMass->FindBin(1.197));
+   for (Int_t iM=1; iM<nM; iM++)  if (hMass->GetBinContent(iM) == 0) hMass->SetBinError(iM,1.0);
+   hMass->SetMinimum(0.01);
+   Float_t nALL = hMass->Integral(hMass->FindBin(1.186), hMass->FindBin(1.196));   
+   printf("Fit1 NALL %d \n", nALL);
+   hMass->Fit("fitfun","Q","", 1.17 1.21);  // WHY we need that fit? - to subtract the BG
+   TF1 *bgFun = new TF1("bgFun",CombiBGFull, mFitMin,mFitMax ,6);
+   for (Int_t i=0; i<fitfun->GetNpar(); i++) {
+     bgFun->SetParameter(i,fitfun->GetParameter(i));
+   }
+
+//   bgFun->SetNpx(nM);
+//   bgHist = (TH1D*)bgFun->GetHistogram(); // it's histogram with all points from BG fit wo peak
+//   //   bgHist->Draw();
+
+   TString nameSub = Form("%sSub",hMass->GetName());
+   TH1D *hMassSub = (TH1D*)hMass->Clone(nameSub);
+
+//   hMassSub->Add(bgHist,-1.); // abb here was an error - results are not subtracted correctly! I use HMsab instead
+//   //  hMassSub->Draw();  if (1>0 ) return;
+
+  printf("FIT1 mmin %f, mmax %f \n", mFitMin, mFitMax);
+
+  // That's an option to vary fit, OK below
+  Double_t mgsFitMin =  1.187; Double_t mgsFitMax =  1.198;    // better agreem MC between 1.5--4
+  //  Double_t mgsFitMin =  1.184;  Double_t mgsFitMax =  1.200;
+  //  Double_t mgsFitMin =  1.18;  Double_t mgsFitMax =  1.204;  // looks the best, as the widest fit-limits 
+
+  //20aug14abb   if ( ptMax <= 1.8 ) {      mgsFitMin=1.188 ;     mgsFitMax=1.196 ;         }
+
+
+  //abb   
+     hMassSub->Fit("gaus","Q","",  mgsFitMin        ,   mgsFitMax        );
+
+  //  if( 1>0 )  fitfun = new TF1("fitfun",CBfit,0.0,1.0,6);
+  //  TF1 * CBfit = new TF1("CBfit","Q","",0.12,0.155) ;
+  //  CBfit->SetParameters(0.135,0.010,1.,0.,0.,0.,0.);
+  //  hMassSub->Fit("fitfun","Q","", 0.120, 0.155 );
+
+ //  fit->SetParName(0,"A") ;
+ //  fit->SetParName(1,"m_{0}") ;
+ //  fit->SetParName(2,"#sigma") ;
+ // fit->SetParName(3,"a_{0}") ;
+ // fit->SetParName(4,"a_{1}") ;
+
+  hMassSub->SetLineColor(kBlue);
+  hMassSub->GetFunction("gaus")->SetLineColor(kCyan);
+  hMassSub->GetFunction("gaus")->SetLineWidth(1);
+
+  //  TCanvas *c11 = new TCanvas("c11","c11");
+  //  c11->Divide(1,2);
+  // c11->cd(1);	
+  hMass->Draw("hist");
+  bgHist->Draw("same");           
+  
+  //  c11->cd(2);	
+
+  //   TH1D *hMSub0 = (TH1D*)hMassSub->Clone(nameSub); 
+
+  TH1D * hMSub0  = (TH1D*) new TH1D("hMSub0","", hMass->GetNbinsX(), 1.175, 1.21 ); 
+
+  for(Int_t i=1;i<=hMass->GetNbinsX();i++){
+    Double_t a=hMass->GetXaxis()->GetBinLowEdge(i) ;    
+    //    printf(" a %f \n", a);
+    Double_t b=hMass->GetXaxis()->GetBinUpEdge(i) ;
+    // printf(" b %f \n", b);
+    Double_t r=bgFun->Eval(0.5*(a+b)) ;
+    // printf(" r %f \n", r);
+    hMSub0->SetBinContent(i,r) ;
+  }
+  //  printf(" 4=- IteratioN \n") ;  
+
+  TH1D *hMSub = (TH1D*)hMass->Clone(nameSub);
+  
+  hMSub->SetAxisRange(1.175,1.21);       // BG subtr region
+
+  //if( ptMax <= 1.5 )  hMSub->SetAxisRange(1.18 ,1.2 ); 
+
+  hMSub->Add(hMSub0 ,-1.);
+
+  //  Double_t mgsFitMin = 1.180 ;  Double_t mgsFitMax = 1.21;  //-stable mass and width vs variation of fit limits 
+
+    hMSub->Fit("gaus","Q","",  mgsFitMin        ,   mgsFitMax        );
+
+  hMSub->SetLineColor(kBlue);
+  hMSub->GetFunction("gaus")->SetLineColor(kCyan);
+  hMSub->GetFunction("gaus")->SetLineWidth(1);
+
+  hMSub->Draw("E");
+
+    //     hMassSub->Draw("hist");
+    //   return hMassSub;
+    return hMSub;
+}       //************************************ END of FIT1 *****************************
+//*******************************************************************************
+//***************************************************************************
+
+
+//----------------------------------------------------------------------
+TH1D *FitMix(const TH1D *hMass = 0,
+	      const TH1D *bgHist = 0,
+	      const Int_t polN = 1,        //why 2 = const, may be 5 or???
+	      const Double_t mFitMin=1.188,
+	      const Double_t mFitMax=1.198,
+	      //	      const Double_t mFitMin=1.188,
+	      // const Double_t mFitMax=1.198,
+	      const Double_t ptMax )
+{
+
+  printf("++++++++++++++++++++++++++++FITMIX-input PolN %d mFitmin %f mFitmax %f  ptMax %f \n", polN, mFitMin, mFitMax,  ptMax );
+
+  //  hMass->Draw();
+
+  TF1 *fitfun = 0;
+  fitfun = new TF1("fitfun",CombiBGFull, 1.17, 1.21, 6);
+  fitfun->SetLineColor(kRed);
+  fitfun->SetLineWidth(1);  
+  fitfun->SetParName(0,"a_{0}");
+  fitfun->SetParName(1,"a_{1}");
+  fitfun->SetParName(2,"a_{2}");
+  fitfun->SetParName(3,"a_{3}");
+  fitfun->SetParName(4,"a_{4}");
+  fitfun->SetParName(5,"a_{5}");
+ Double_t mgsFitMin =  1.187; Double_t mgsFitMax =  1.198; 
+
+  TString nameSub = Form("%sSubmix",hMass->GetName());
+  TH1D *hMSub = (TH1D*)hMass->Clone(nameSub); 
+  hMSub->SetAxisRange(1.175,1.21); 
+  hMSub->Add( bgHist ,-1.);
+
+  //  Double_t mgsFitMin = 1.180 ;  Double_t mgsFitMax = 1.21;  //-stable mass and width vs variation of fit limits 
+
+    hMSub->Fit("gaus","Q","",  mgsFitMin        ,   mgsFitMax        );
+
+  hMSub->SetLineColor(kBlue);
+  hMSub->GetFunction("gaus")->SetLineColor(kOrange);
+  hMSub->GetFunction("gaus")->SetLineWidth(1);
+
+  hMSub->Draw("E");
+
+    //     hMassSub->Draw("hist");
+    //   return hMassSub;
+    return hMSub;
+}       //************************************ END of FitMix *****************************
+
+
+//-----------------------------------------------------------------------------
+// Double_t pi0massP2(Double_t *x, Double_t *par)
+Double_t SumBG(Double_t *x, Double_t *par)
+ {
+   Double_t gaus = par[0] * TMath::Exp( -(x[0]-par[1])*(x[0]-par[1]) /
+                                        (2*par[2]*par[2]) );
+
+   //   par[6] = 0;
+
+   Double_t back = par[3] + par[4]*x[0] + par[5]*x[0]*x[0] ;
+
+     // + par[6]**x[0]*x[0]*x[0]  ;
+   return gaus+back;
+ }
+//----------------------------------------------------------------------
+
+Double_t CombiBG(Double_t *x, Double_t *par)
+{
+  // if (x[0] > 1.185 && x[0] < 1.195 ) {
+  // almost ok 6dec13  if (x[0] > 1.191 && x[0] < 1.195 ) {
+  // 14 jan14   if (x[0] > 1.187 && x[0] < 1.201 ) {
+
+  if (x[0] > 1.187 && x[0] < 1.198 ) {
+     TF1::RejectPoint();
+     return 0;
+   }
+
+  Double_t back = par[0] + par[1]*x[0] 
+          + par[2]*TMath::Power(x[0],2) 
+    + par[3]*TMath::Power(x[0],3)      
+    + par[4]*TMath::Power(x[0],4) ;
+    //      + par[5]*TMath::Power(x[0],5) ;
+  //   par[2] = 0;
+  // par[3] = 0;
+  // par[4] = 0;
+    par[5] = 0;
+ 
+ return back;
+}
+
+//----------------------------------------------------------------------
+
+ Double_t CombiBGFull(Double_t *x, Double_t *par)
+ {
+   Double_t back = par[0] + par[1]*x[0] 
+     + par[2]*TMath::Power(x[0],2)
+     + par[3]*TMath::Power(x[0],3)  
+     + par[4]*TMath::Power(x[0],4) ;
+   //    + par[5]*TMath::Power(x[0],5);
+   //      par[4] = 0;
+     par[5] = 0;
+
+   return back;
+ }
+
+// //-----------------------------------------------------------------------------
+// Double_t acceptance(Double_t *x, Double_t *p)
+// {
+//   return (p[0] + p[1]*x[0]) * (1. - TMath::Exp( -(x[0]-p[2]) / p[3] ));
+// }
+//-----------------------------------------------------------------------------
+Double_t acc0(Double_t *x, Double_t *par)
+{
+  Double_t back = 
+    par[0] 
+    + par[1]*x[0]   
+    + par[2]*TMath::Power(x[0],0.5)     
+    + par[3]/x[0]   
+    + par[4]*TMath::Log( x[0] )   ;
+
+  // old-29mar11    + par[5]*TMath::Power(x[0],4) ; 
+
+  return back;
+}
+
+
+
+//-----------------------------------------------------------------------------
+void ALICEPreliminary(TPad *c,
+		      const Float_t bbllx=0.60, const Float_t bblly=0.44,
+		      const Float_t bburx=0.95, const Float_t bbury=0.62)  //0.72
+{
+  c->cd();
+  const Float_t logoSize = 0.14;
+  Float_t llx = (bbllx+bburx)/2 - logoSize/2;
+  Float_t urx = (bbllx+bburx)/2 + logoSize/2;
+  Float_t lly =  bbury - logoSize;
+  Float_t ury =  bbury;
+  printf("llx=%f, lly=%f, urx=%f, ury=%f\n",llx, lly, urx, ury);
+  TPad *myPadLogo = new TPad("myPadLogo", "Pad for ALICE Logo",
+                             llx, lly, urx, ury);
+  myPadLogo->SetFillColor(0); 
+  myPadLogo->SetBorderMode(1);
+  myPadLogo->SetBorderSize(2);
+  myPadLogo->SetFrameBorderMode(0);
+  myPadLogo->SetLeftMargin(0.0);
+  myPadLogo->SetTopMargin(0.0);
+  myPadLogo->SetBottomMargin(0.0);
+  myPadLogo->SetRightMargin(0.0);
+  myPadLogo->SetFillStyle(0);
+  myPadLogo->Draw();
+  myPadLogo->cd();
+  TASImage *myAliceLogo = new TASImage("./alice_logo.png");
+  myAliceLogo->Draw();
+  c->cd();
+
+  llx = bbllx;
+  lly = bblly;
+  urx = bburx;
+  ury = bbury - logoSize - 0.01;
+  TPaveText* t1=new TPaveText(llx, lly, urx, ury,"NDC");
+  t1->SetFillStyle(0);
+  t1->SetBorderSize(0);
+  t1->AddText(0.,0.,"ALICE performance");
+  t1->AddText(0.,0.,"pp#rightarrow#Sigma^{0}( #gamma_{EMCAL} #gamma_{conv})  X");
+  t1->AddText(0.,0.,"#sqrt{s}=7 TeV");
+  t1->AddText(0.,0.,"17 May 2011"); 
+  t1->SetTextColor(kRed);
+  t1->SetTextFont(42);
+  t1->Draw();
+  c->cd();
+}
+//-------------------------------------------------------------------------------------------------
+Double_t CBfit(Double_t * x, Double_t * par){
+  Double_t m=par[1] ;
+  Double_t s=par[2] ;
+  Double_t n=par[3] ;
+  Double_t a=par[4] ;
+  Double_t dx=(x[0]-m)/s ;
+  if(dx>-a)
+    return par[0]*exp(-dx*dx/2.)+par[5]+par[6]*(x[0]-kMean) ;
+  else{
+    Double_t A=TMath::Power((n/TMath::Abs(a)),n)*TMath::Exp(-a*a/2) ;
+    Double_t B=n/TMath::Abs(a)-TMath::Abs(a) ;
+    return par[0]*A*TMath::Power((B-dx),-n)+par[5]+par[6]*(x[0]-kMean) ;
+  }
+}
+//---------------------------------------------------------------------------------------------------
+Double_t CB2fit(Double_t * x, Double_t * par){
+  Double_t m=par[1] ;
+  Double_t s=par[2] ;
+  Double_t n=par[3] ;
+  Double_t a=par[4] ;
+  Double_t dx=(x[0]-m)/s ;
+  if(dx>-a)
+    return par[0]*exp(-dx*dx/2.)+par[5]+par[6]*(x[0]-kMean)+par[7]*(x[0]-kMean)*(x[0]-kMean) ;
+  else{
+    Double_t A=TMath::Power((n/TMath::Abs(a)),n)*TMath::Exp(-a*a/2) ;
+    Double_t B=n/TMath::Abs(a)-TMath::Abs(a) ;
+    return par[0]*A*TMath::Power((B-dx),-n)+par[5]+par[6]*(x[0]-kMean)+par[7]*(x[0]-kMean)*(x[0]-kMean) ;
+  }
+
+}
+//------------------------------------------------------------------------
+TH1D * BinWidthCorrection(TH1D * h){
+  //We apply bin width a-la PHENIX 
+  //Use Tsalis fit to calculate shift in y direction
+
+  // It is not Tsallis fit below - break
+  //  TF1 * fit = new TF1("hag","[0]*(([2]*[1]+sqrt(x*x+0.135*0.135))/([2]*[1]+0.135))^-[2]",0.5,25.) ;
+  //  fit->SetParameters(10.,0.2,8.) ;
+
+
+  TF1 * fit = new TF1("Tsalis","[0]/2./3.1415*([2]-1.)*([2]-2.)/([2]*[1]*([2]*[1]+0.135*([2]-2.)))*(1.+(sqrt(x*x+0.135*0.135)-0.135)/([2]*[1]))^-[2]",0.5,25.) ;
+  fit->SetParameters(1.6e+11,0.2,6.7) ;
+
+
+  TCanvas * corr = new TCanvas("BWcorr","Bin-width-correction") ;
+  Int_t col[6]={kRed,kOrange,kMagenta,kGreen,kCyan,kBlue} ;
+  TH1D * hcorr[20] ;
+  char key[55] ;
+  Double_t rMax=10 ;
+  Int_t iteration=0 ;
+  TH1D * htmp = (TH1D*)h->Clone("tmp") ;
+
+  while(iteration<6){
+    //    printf(" Iteration %d: rMax=%f \n",iteration, rMax) ;
+    htmp->Fit(fit,"N") ;
+    //    printf(" 2=- IteratioN %d: rMax=%f \n",iteration, rMax) ;
+
+    sprintf(key,"Iteration%d",iteration) ;
+    hcorr[iteration]=(TH1D*)h->Clone(key);
+    rMax= 0; 
+
+    //    printf(" 3=- IteratioN %d: rMax=%f \n",iteration, rMax) ;
+    for(Int_t i=1;i<=h->GetNbinsX();i++){
+      Double_t a=h->GetXaxis()->GetBinLowEdge(i) ;
+      Double_t b=h->GetXaxis()->GetBinUpEdge(i) ;
+      Double_t r=fit->Integral(a,b)/(b-a)/fit->Eval(0.5*(a+b)) ;
+      hcorr[iteration]->SetBinContent(i,r) ;
+      hcorr[iteration]->SetBinError(i,0.) ;
+      if(rMax<r)rMax=r ;
+      //      printf(" rMax = %f \n", rMax);
+    }
+    //    printf(" 4=- IteratioN \n") ;  
+
+    delete htmp ;
+    htmp = (TH1D*)h->Clone("tmp") ;
+    htmp->Divide(hcorr[iteration]) ;
+    corr->cd() ;
+    hcorr[iteration]->SetLineColor(col[iteration]);
+    if(iteration==0) {
+      hcorr[iteration]->Draw() ;
+
+      Double_t hval=0;
+      for(Int_t i=1; i<=16; i++){
+	hval = hcorr[iteration]->GetBinContent(i) ;
+	//	hMass->GetBinContent(iM)
+	printf(" hv %f i %d \n", hval, i ); 
+      }
+    
+
+    }
+    //    else
+    //      hcorr[iteration]->Draw("same") ;
+    corr->Update() ;
+    iteration++ ;
+  } 
+  return hcorr[5] ;
+
+  //  Double_t hval=0;
+  //  for(Int_t i=1;i<=h->GetNbinsX();i++){
+  //  hval = hcorr->GetBinContent(i) ;
+  //  printf(" hv %f i %d \n"); }
+  
+}
+
+
+//=============================================================================
+PPRstyle()
+{
+  //////////////////////////////////////////////////////////////////////
+  //
+  // ROOT style macro for the TRD TDR
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  gStyle->SetPalette(1);
+  gStyle->SetCanvasBorderMode(-1);
+  gStyle->SetCanvasBorderSize(1);
+  gStyle->SetCanvasColor(10);
+
+  gStyle->SetFrameFillColor(10);
+  gStyle->SetFrameBorderSize(1);
+  gStyle->SetFrameBorderMode(-1);
+  gStyle->SetFrameLineWidth(1.2);
+  gStyle->SetFrameLineColor(1);
+
+  gStyle->SetHistFillColor(kBlack);
+  gStyle->SetHistLineWidth(2);
+  gStyle->SetHistLineColor(1);
+
+  gStyle->SetPadColor(10);
+  gStyle->SetPadBorderSize(1);
+  gStyle->SetPadBorderMode(-1);
+
+  gStyle->SetStatColor(10);
+  gStyle->SetTitleColor(kBlack,"X");
+  gStyle->SetTitleColor(kBlack,"Y");
+
+  gStyle->SetLabelSize(0.024,"X");
+  gStyle->SetLabelSize(0.024,"Y");
+  gStyle->SetLabelSize(0.024,"Z");
+  gStyle->SetTitleSize(0.024,"X");
+  gStyle->SetTitleSize(0.024,"Y");
+  gStyle->SetTitleSize(0.024,"Z");
+  gStyle->SetTitleFont(42,"X");
+  gStyle->SetTitleFont(42,"Y");
+  gStyle->SetTitleFont(42,"X");
+  gStyle->SetLabelFont(42,"X");
+  gStyle->SetLabelFont(42,"Y");
+  gStyle->SetLabelFont(42,"Z");
+  gStyle->SetStatFont(42);
+
+  gStyle->SetTitleOffset(1.0,"X");
+  gStyle->SetTitleOffset(1.4,"Y");
+
+//   gStyle->SetFillColor(kWhite);
+  gStyle->SetTitleFillColor(kWhite);
+
+  gStyle->SetOptDate(0);
+  gStyle->SetOptTitle(1);
+  gStyle->SetOptStat(0);
+  gStyle->SetOptFit(0);
+
+}

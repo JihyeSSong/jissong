@@ -1,0 +1,474 @@
+#include <iostream>
+#include <TApplication.h>
+#include <TMatrix.h>
+#include <TROOT.h>
+#include <TH1F.h>
+#include <TH2F.h>
+#include <TList.h>
+#include <TTree.h>
+#include <TDirectoryFile.h>
+#include <TLorentzVector.h>
+#include <TString.h>
+#include <TStopwatch.h>
+#include <TPaveText.h>
+#include <cstdlib>
+#include <iomanip>
+
+#include <math.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <Riostream.h>
+#include "RooFit.h"
+#include "RooVoigtian.h"
+#include "RooAbsReal.h"
+#include "RooRealVar.h"
+#include "RooComplex.h"
+#include "RooMath.h"
+
+#include "TVector2.h"
+#include "TFile.h"
+#include "TString.h"
+#include "TF1.h"
+#include "TH1.h"
+#include "TH2.h"
+#include "TH3.h"
+#include "TProfile.h"
+#include "TProfile2D.h"
+#include "TMath.h"
+#include "TText.h"
+#include "TRandom3.h"
+#include "TArray.h"
+#include "TLegend.h"
+#include "TStyle.h"
+#include "TMinuit.h"
+
+#include "TCanvas.h"
+#include "TLatex.h"
+#include "TImage.h"
+#include "TGaxis.h"
+#include "TGraphErrors.h"
+#include "TPaveStats.h"
+using namespace std;
+
+// #include <iostream>
+
+// this is for systematic study
+
+const int ptbin = 8;
+double ptedges[ptbin+1+1]={0};
+
+/* Bins0
+ double ptedges_Sigma[ptbin+1] = { 1.0, 1.5, 2.0, 2.4, 2.8, 3.2, 4., 6.0, 10.0 };
+double pt_points[ptbin] = {1.25, 1.75, 2.2, 2.6, 3.0, 3.6, 5., 8};
+double pt_points_e[ptbin] = {.25, .25, .2, .2, .2, .4, 1., 2. };
+*/
+
+
+// * Bins2b 18oct16
+Int_t iBinPt[40]=               { 12,  17,  21,  25,  29,  35,  41, 51,  81, 241,281,321,361,401 };
+double ptedges_Sigma[ptbin+1] = { 1.1, 1.6, 2.0, 2.4, 2.8, 3.4, 4., 5.0, 8.0 };
+double pt_points[ptbin] =       { 1.35,1.8, 2.2, 2.6, 3.0, 3.8,    4.5, 6.5 };
+double pt_points_e[ptbin] =     {  .25, .2,  .2, .2,   .3,  .3,    0.5, 1.5 };
+// */
+
+
+// TH1F *hRatDiffSum = new TH1F("hRatDiffSum","; Ratio", 100, -5, 5.);
+
+double yMpol1[ptbin+1]={0};
+double yMpol1_e[ptbin+1]={0};
+double yMpol2[ptbin+1]={0};
+double yMpol2_e[ptbin+1]={0};
+double yMpol3[ptbin+1]={0};
+double yMpol3_e[ptbin+1]={0};
+double yMpol4[ptbin+1]={0};
+double yMpol4_e[ptbin+1]={0};
+double yMpol5[ptbin+1]={0};
+double yMpol5_e[ptbin+1]={0};
+
+double yiel1[ptbin+1]={0};
+double yiel1_e[ptbin+1]={0};
+double yiel2[ptbin+1]={0};
+double yiel2_e[ptbin+1]={0};
+double yiel3[ptbin+1]={0};
+double yiel3_e[ptbin+1]={0};
+double yiel4[ptbin+1]={0};
+double yiel4_e[ptbin+1]={0};
+double yiel5[ptbin+1]={0};
+double yiel5_e[ptbin+1]={0};
+
+
+double yMmean[ptbin+1]={0};
+double yMmean_e[ptbin+1]={0};
+
+double yMean[ptbin+1]={0};
+double yMean_e[ptbin+1]={0};
+
+
+double diff1[ptbin+1]={0};
+double diff1_e[ptbin+1]={0};
+double reldiff1[ptbin+1]={0};
+double reldiff1_e[ptbin+1]={0};
+double relstat1[ptbin+1]={0};
+double relstat1_e[ptbin+1]={0};
+
+double diff2[ptbin+1]={0};
+double diff2_e[ptbin+1]={0};
+double reldiff2[ptbin+1]={0};
+double reldiff2_e[ptbin+1]={0};
+double relstat2[ptbin+1]={0};
+double relstat2_e[ptbin+1]={0};
+
+double diff3[ptbin+1]={0};
+double diff3_e[ptbin+1]={0};
+double reldiff3[ptbin+1]={0};
+double reldiff3_e[ptbin+1]={0};
+double relstat3[ptbin+1]={0};
+double relstat3_e[ptbin+1]={0};
+
+double diff4[ptbin+1]={0};
+double diff4_e[ptbin+1]={0};
+double reldiff4[ptbin+1]={0};
+double reldiff4_e[ptbin+1]={0};
+double relstat4[ptbin+1]={0};
+double relstat4_e[ptbin+1]={0};
+
+double diff5[ptbin+1]={0};
+double diff5_e[ptbin+1]={0};
+double reldiff5[ptbin+1]={0};
+double reldiff5_e[ptbin+1]={0};
+double relstat5[ptbin+1]={0};
+double relstat5_e[ptbin+1]={0};
+
+double delta1[ptbin+1]={0};
+double delta2[ptbin+1]={0};
+double delta3[ptbin+1]={0};
+double delta4[ptbin+1]={0};
+double delta5[ptbin+1]={0};
+
+double delta1_e[ptbin+1]={0};
+double delta2_e[ptbin+1]={0};
+double delta3_e[ptbin+1]={0};
+double delta4_e[ptbin+1]={0};
+double delta5_e[ptbin+1]={0};
+
+
+double ratdiff1[ptbin+1]={0};
+double ratdiff2[ptbin+1]={0};
+double ratdiff3[ptbin+1]={0};
+double ratdiff4[ptbin+1]={0};
+double ratdiff5[ptbin+1]={0};
+
+double ratdiff1_e[ptbin+1]={0};
+double ratdiff2_e[ptbin+1]={0};
+double ratdiff3_e[ptbin+1]={0};
+double ratdiff4_e[ptbin+1]={0};
+double ratdiff5_e[ptbin+1]={0};
+
+
+
+void SystGammaSUM10(){          // -LamCosPAvar
+
+  //  PPRstyle();              
+  //      gStyle->SetOptStat(111111);
+   gStyle->SetOptStat(0);       // global options for ALL plots
+   gStyle->SetOptFit(111);
+
+    for(int i=0; i<ptbin+1; i++){        
+        if(i==0) ptedges[i]=0;
+        else {
+            ptedges[i] = ptedges_Sigma[i-1];
+            ptedges[ptbin+1] = ptedges_Sigma[ptbin];
+        }
+    }
+    
+    //    TH1F *hRatDiff = new TH1F("hRatDiff","; Ratio", 100, -15, 15.);  
+
+   TH1F *hRatDiffSum = new TH1F("hRatDiff","; Ratio", 100, -5, 5.);  
+   TH1F *hRatDiff1 = new TH1F("hRatDiff","; Ratio", 100, -5, 5.);  
+   TH1F *hRatDiff2 = new TH1F("hRatDiff","; Ratio", 100, -5, 5.);  
+   TH1F *hRatDiff3 = new TH1F("hRatDiff","; Ratio", 100, -5, 5.);  
+   TH1F *hRatDiff4 = new TH1F("hRatDiff","; Ratio", 100, -5, 5.);  
+   TH1F *hRatDiff5 = new TH1F("hRatDiff","; Ratio", 100, -5, 5.);  
+
+   TH1F *hStatDiffSum = new TH1F("hStatDiff","; Ratio", 100, 0, 25.);  
+
+  TH1D *hRatDiffPt[15];
+  for(int i=1; i<ptbin+5; i++){
+   hRatDiffPt[i]= new TH1D(Form("hRatDiffPt_%d",i),Form("RatDiffPt_%d",i), 100, -5, 5 );
+   hRatDiffPt[i]->SetMarkerStyle(21);
+   hRatDiffPt[i]->SetMarkerSize(0.5);
+   hRatDiffPt[i]->SetLineColor(kRed-3);
+   hRatDiffPt[i]->SetMarkerColor(kRed-3);
+   } 
+
+
+   Double_t emix, epol1,epol2,epol3,epol4,epol5, ed1,ed2,ed3,ed4,ed5;
+   Double_t statdiff1,statdiff2,statdiff3, statdiff4, statdiff5; 
+    
+   Double_t nVars = 5;
+
+   //  
+   /*    TFile *fpol0 = TFile::Open("Syst_fitFunction.root-var4c-fLambdaMassCut6-2nov16.root");
+   TFile *fpol1 = TFile::Open("Syst_fitFunction.root-var5c-LamCosPA-1nov16.root");
+
+   TFile *fpol9 = TFile::Open("Syst_fitFunction.root-var10c-RatioRawsVar-31oct16.root");
+   TFile *fpol6 = TFile::Open("Syst_fitFunction.root-var11c-LamDCAtoPVNeg-1nov16.root");
+   TFile *fpol3 = TFile::Open("Syst_fitFunction.root-var12c-LambdaK0sDiff-1nov16.root");
+   TFile *fpol2 = TFile::Open("Syst_fitFunction.root-var13c-LambdaSigmasProton-28oct16.root");
+   TFile *fpol8 = TFile::Open("Syst_fitFunction.root-var14c-LamRadius-31oct16.root");
+   TFile *fpol4 = TFile::Open("Syst_fitFunction.root-var6c-LamDCAD-cut7-28oct16.root");
+   TFile *fpol5 = TFile::Open("Syst_fitFunction.root-var7c-LamDCAtoPVPos-cut5-28oct16.root");
+   TFile *fpol7 = TFile::Open("Syst_fitFunction.root-var9c-cTauVar-cut6-28oct16.root");
+   */
+
+   TFile *fpol0 = TFile::Open("Syst_fitFunction.root-Gamma-RatRows-cut-8nov16.root");
+   TFile *fpol1 = TFile::Open("Syst_fitFunction.root-Gamma-DCADaught-cut-8nov16.root");
+   //  TFile *fpol2 = TFile::Open("Syst_fitFunction.root-Gamma-CosPA-cut-8nov16.root");
+   //   TFile *fpol2 = TFile::Open("Syst_fitFunction.root-Gamma-DCAPVpos-cut-10nov16.root");
+   // TFile *fpol3 = TFile::Open("Syst_fitFunction.root-Gamma-DCAPVneg-cut-8nov16.root");
+
+   TFile *fpol4 = TFile::Open("Syst_fitFunction.root-Gamma-DCAztoPV-cut-8nov16.root");
+   TFile *fpol5 = TFile::Open("Syst_fitFunction.root-Gamma-Chi2-cut5-8nov16.root");
+   TFile *fpol6 = TFile::Open("Syst_fitFunction.root-Gamma-Radius-cut-8nov16.root");
+   TFile *fpol7 = TFile::Open("Syst_fitFunction.root-Gamma-NsigePos-cut-8nov16.root");
+   TFile *fpol8 = TFile::Open("Syst_fitFunction.root-Gamma-NsigeNeg-cut-8nov16.root");
+   TFile *fpol9 = TFile::Open("Syst_fitFunction.root-Gamma-NsigPiNeg-cut5-8nov16.root");
+   TFile *fpol10 = TFile::Open("Syst_fitFunction.root-Gamma-NsigPiPos-cut5-9nov16.root");
+   TFile *fpol2 = TFile::Open("Syst_fitFunction.root-Gamma-pTPos-cut-10nov16.root");
+   TFile *fpol3 = TFile::Open("Syst_fitFunction.root-Gamma-pTNeg-cut-10nov16.root");
+
+
+
+  
+ 
+    printf("files opend \n");
+    
+    TH1D *hpol0 = (TH1D*)fpol0->Get("hdmeandiff"); 
+    hpol0->SetMarkerStyle(22);
+    hpol0->SetLineColor(kRed);
+    hpol0->SetMarkerColor(kRed);
+    hpol0->SetTitle("cut0");
+  for(int ii=2; ii<ptbin+2; ii++) {
+    Double_t apol0 =hpol0->GetBinContent(ii);
+    printf(" val %f \n", apol0);
+  }
+
+    TH1D *hpol1 = (TH1D*)fpol1->Get("hdmeandiff"); 
+    hpol1->SetMarkerStyle(23);
+    hpol1->SetLineColor(kRed+3);
+    hpol1->SetMarkerColor(kRed+3);
+    hpol1->SetTitle("cut1");
+
+    TH1D *hpol2 = (TH1D*)fpol2->Get("hdmeandiff"); 
+    hpol2->SetMarkerStyle(22);
+    hpol2->SetLineColor(2);
+    hpol2->SetMarkerColor(2);
+    hpol2->SetTitle("cut2");
+
+    TH1D *hpol3 = (TH1D*)fpol3->Get("hdmeandiff");
+    hpol3->SetMarkerStyle(26);
+    hpol3->SetLineColor(3);
+    hpol3->SetMarkerColor(3);
+    hpol3->SetTitle("cut3");
+
+    TH1D *hpol4 = (TH1D*)fpol4->Get("hdmeandiff");
+    hpol4->SetMarkerStyle(24);
+    hpol4->SetLineColor(4);
+    hpol4->SetMarkerColor(4);
+    hpol4->SetTitle("cut4");
+
+    TH1D *hpol5 = (TH1D*)fpol5->Get("hdmeandiff");
+    hpol5->SetMarkerStyle(25);
+    hpol5->SetLineColor(6);
+    hpol5->SetMarkerColor(6);
+    hpol5->SetTitle("cut5");
+
+    TH1D *hpol6 = (TH1D*)fpol6->Get("hdmeandiff"); 
+    TH1D *hpol7 = (TH1D*)fpol7->Get("hdmeandiff");  
+    TH1D *hpol8 = (TH1D*)fpol8->Get("hdmeandiff"); 
+    TH1D *hpol9 = (TH1D*)fpol9->Get("hdmeandiff");
+    TH1D *hpol10 = (TH1D*)fpol10->Get("hdmeandiff");  
+ 
+    //   TH1D *hpol11 = (TH1D*)fpol11->Get("hdmeandiff"); 
+    //    TH1D *hpol12 = (TH1D*)fpol12->Get("hdmeandiff");
+ 
+
+    TH1D *hpl0 = (TH1D*)fpol0->Get("hmeandiff");  
+    TH1D *hpl1 = (TH1D*)fpol1->Get("hmeandiff"); 
+    TH1D *hpl2 = (TH1D*)fpol2->Get("hmeandiff"); 
+    TH1D *hpl3 = (TH1D*)fpol3->Get("hmeandiff"); 
+    TH1D *hpl4 = (TH1D*)fpol4->Get("hmeandiff");
+    TH1D *hpl5 = (TH1D*)fpol5->Get("hmeandiff");
+    TH1D *hpl6 = (TH1D*)fpol6->Get("hmeandiff"); 
+    TH1D *hpl7 = (TH1D*)fpol7->Get("hmeandiff"); 
+    TH1D *hpl8 = (TH1D*)fpol8->Get("hmeandiff");
+    TH1D *hpl9 = (TH1D*)fpol9->Get("hmeandiff");
+
+    TH1D *hpl10 = (TH1D*)fpol10->Get("hmeandiff");  
+ 
+    //   TH1D *hpl11 = (TH1D*)fpol11->Get("hmeandiff"); 
+    // TH1D *hpl12 = (TH1D*)fpol12->Get("hmeandiff");
+
+
+   //   TH1D *hpol10 = (TH1D*)fpol10->Get("hdmeandiff");
+
+    
+    /*  TH1D *hyielbase = (TH1D*)fmix->Get("h_Rawspectrum");     hyielbase->SetTitle("hyielbase");  
+  TH1D *hyiel1 = (TH1D*)fpol1->Get("h_Rawspectrum");   hyiel1->SetTitle("hyiel1"); 
+  TH1D *hyiel2 = (TH1D*)fpol2->Get("h_Rawspectrum");   hyiel2->SetTitle("hyiel2");     
+  TH1D *hyiel3 = (TH1D*)fpol3->Get("h_Rawspectrum");   hyiel3->SetTitle("hyiel3");    
+  TH1D *hyiel4 = (TH1D*)fpol4->Get("h_Rawspectrum");   hyiel4->SetTitle("hyiel4");    
+  TH1D *hyiel5 = (TH1D*)fpol5->Get("h_Rawspectrum");   hyiel5->SetTitle("hyiel5");   
+    */
+
+  for(int ii=2; ii<ptbin+2; ii++) {
+
+    double yieldbase = 0;
+    double yield1 = 0;  double yield2 = 0;  double yield3 = 0;   double yield4 = 0; double yield5 = 0;
+
+    double mix = 0;  double pol0 = 0; 
+    double pol1 = 0;  double pol2 = 0;  double pol3 = 0;   double pol4 = 0; double pol5 = 0;
+    double pol6 = 0;  double pol7 = 0;  double pol8 = 0;   double pol9 = 0; double pol10 = 0;
+    double pol11 = 0; double pol12 = 0;
+
+    pol1 =hpol1->GetBinContent(ii);  pol2 =hpol2->GetBinContent(ii);   pol3 =hpol3->GetBinContent(ii);
+    pol4 =hpol4->GetBinContent(ii);  pol5 =hpol5->GetBinContent(ii);
+    pol6 =hpol6->GetBinContent(ii);  pol7 =hpol7->GetBinContent(ii);   pol8 =hpol8->GetBinContent(ii);
+    pol9 =hpol9->GetBinContent(ii);  pol0 =hpol0->GetBinContent(ii); 
+   pol10=hpol10->GetBinContent(ii); 
+   // pol11=hpol11->GetBinContent(ii);   pol12 =hpol12->GetBinContent(ii);
+
+
+    // pol10 =hpol10->GetBinContent(ii);
+   
+    yMmean[ii] = sqrt ( pol1*pol1 + pol2*pol2 + pol3*pol3 + pol4*pol4 + pol5*pol5 +
+			    pol6*pol6 + pol7*pol7 + pol8*pol8 + pol9*pol9 + pol0*pol0 +
+		  pol10*pol10 + pol11*pol11 + pol12*pol12  ); 
+    
+    Double_t ym0 =  sqrt ( pol0*pol0 ) ;
+    printf("ym0 %f i %d \n",ym0, ii );
+    printf("pol0 %f 1 %f 2 %f 3 %f 4 %f 5 %f 6 %f 7 %f 8 %f 9 %f Mean %f \n"
+	 ,pol0 ,pol1,pol2,pol3,pol4,pol5,pol6,pol7,pol8,pol9,  yMmean[ii]);
+
+
+
+    double pl0 = 0; 
+    double pl1 = 0;  double pl2 = 0;  double pl3 = 0;   double pl4 = 0; double pl5 = 0;
+    double pl6 = 0;  double pl7 = 0;  double pl8 = 0;   double pl9 = 0; double pl10 = 0;
+    double pl11 = 0;  double pl12 = 0; 
+
+    pl1 =hpl1->GetBinContent(ii);  pl2 =hpl2->GetBinContent(ii);   pl3 =hpol3->GetBinContent(ii);
+    pl4 =hpl4->GetBinContent(ii);  pl5 =hpl5->GetBinContent(ii);
+    pl6 =hpl6->GetBinContent(ii);  pl7 =hpl7->GetBinContent(ii);   pl8 =hpol8->GetBinContent(ii);
+    pl9 =hpl9->GetBinContent(ii);  pl0 =hpl0->GetBinContent(ii);  
+    pl10 =hpl10->GetBinContent(ii); 
+    //  pl11 =hpl11->GetBinContent(ii);   pl12 =hpl12->GetBinContent(ii);
+
+   yMean[ii] = sqrt ( pl1*pl1 + pl2*pl2 + pl3*pl3 + pl4*pl4 + pl5*pl5 +
+			    pl6*pl6 + pl7*pl7 + pl8*pl8 + pl9*pl9 + pl0*pl0 +
+		     pl10*pl10 + pl11*pl11 + pl12*pl12   ); 
+    
+    printf(" pl0 %f 1 %f 2 %f 3 %f 4 %f 5 %f 6 %f 7 %f 8 %f 9 %f Mean %f \n \n"
+	   ,pl0 ,pl1,pl2,pl3,pl4,pl5,pl6,pl7,pl8,pl9,  yMean[ii]);
+  }
+
+  TH1D *hSystDSum = new TH1D("hSystDSum","SystDSum",ptbin+1,ptedges);
+ hSystDSum ->SetLineColor(1);
+ hSystDSum ->SetMarkerColor(1);
+ hSystDSum ->SetLineWidth(2);
+ hSystDSum ->SetMinimum(0.001);
+ hSystDSum ->SetMaximum(1.5);
+ hSystDSum ->SetMarkerSize(1.5);
+ hSystDSum ->SetMarkerStyle(29);
+ hSystDSum ->SetXTitle("p_{T}, GeV/c");
+ hSystDSum ->SetTitle("Sum");
+  for(int i=2; i<ptbin+2; i++) {
+    hSystDSum->SetBinContent(i,yMmean[i]);        hSystDSum->SetBinError(i, 0.001 );    
+  }
+ 
+
+  TH1D *hSystMSum = new TH1D("hSystSum","SystSum",ptbin+1,ptedges);
+ hSystMSum ->SetLineColor(1);
+ hSystMSum ->SetMarkerColor(1);
+ hSystMSum ->SetLineWidth(2);
+ hSystMSum ->SetMinimum(0.001);
+ hSystMSum ->SetMaximum(1.5);
+ hSystMSum ->SetMarkerSize(1.95);
+ hSystMSum ->SetMarkerStyle(20);
+ hSystMSum ->SetTitle("Sum");
+ for(int i=2; i<ptbin+2; i++) {
+   hSystMSum->SetBinContent(i,yMean[i]);        hSystMSum->SetBinError(i, 0.001 );    
+ }
+  
+ printf("diff calc done---------> \n");    
+   
+ hSystDSum->Draw();
+ hSystMSum->Draw("same");
+ TLegend *legl = new TLegend(0.6,0.5,0.9,0.9);
+ legl->AddEntry(hSystDSum,"RMS of deviations","lp");
+ legl->AddEntry(hSystMSum,"Mean difference","lp");
+  legl->Draw("same");
+
+}
+
+
+//=============================================================================
+/* PPRstyle()
+{
+  //////////////////////////////////////////////////////////////////////
+  //
+  // ROOT style macro for the TRD TDR
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  gStyle->SetPalette(1);
+  gStyle->SetCanvasBorderMode(-1);
+  gStyle->SetCanvasBorderSize(1);
+  gStyle->SetCanvasColor(10);
+
+  gStyle->SetFrameFillColor(10);
+  gStyle->SetFrameBorderSize(1);
+  gStyle->SetFrameBorderMode(-1);
+  gStyle->SetFrameLineWidth(1.2);
+  gStyle->SetFrameLineColor(1);
+
+  gStyle->SetHistFillColor(kBlack);
+  gStyle->SetHistLineWidth(2);
+  gStyle->SetHistLineColor(1);
+
+  gStyle->SetPadColor(10);
+  gStyle->SetPadBorderSize(1);
+  gStyle->SetPadBorderMode(-1);
+
+  gStyle->SetStatColor(10);
+  gStyle->SetTitleColor(kBlack,"X");
+  gStyle->SetTitleColor(kBlack,"Y");
+
+  gStyle->SetLabelSize(0.024,"X");
+  gStyle->SetLabelSize(0.024,"Y");
+  gStyle->SetLabelSize(0.024,"Z");
+  gStyle->SetTitleSize(0.024,"X");
+  gStyle->SetTitleSize(0.024,"Y");
+  gStyle->SetTitleSize(0.024,"Z");
+  gStyle->SetTitleFont(42,"X");
+  gStyle->SetTitleFont(42,"Y");
+  gStyle->SetTitleFont(42,"X");
+  gStyle->SetLabelFont(42,"X");
+  gStyle->SetLabelFont(42,"Y");
+  gStyle->SetLabelFont(42,"Z");
+  gStyle->SetStatFont(42);
+
+  gStyle->SetTitleOffset(1.0,"X");
+  gStyle->SetTitleOffset(1.4,"Y");
+
+//   gStyle->SetFillColor(kWhite);
+  gStyle->SetTitleFillColor(kWhite);
+
+  gStyle->SetOptDate(0);
+  gStyle->SetOptTitle(1);
+  gStyle->SetOptStat(0);
+  gStyle->SetOptFit(0);
+
+}
+*/

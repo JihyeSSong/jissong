@@ -1,0 +1,5 @@
+Overriding 'TransactionTimeout' with value 60.  Final value: 60
+Overriding 'RequestTimeout' with value 30.  Final value: 30
+Overriding 'ConnectTimeout' with value 10.  Final value: 10
+Overriding 'FirstConnectMaxCnt' with value 4.  Final value: 4
+[xrootd] Total 0.00 MB	|====================| 100.00 % [0.0 MB/s]

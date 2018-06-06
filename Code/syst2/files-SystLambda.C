@@ -1,0 +1,235 @@
+Gauss: +-2sigma -> ratio > 0.9545, i.e. 2 is out; +-1sigma ratio > 0.6827, i.e. 13 out
+
+// 4 SystLambda4a.C LamMassCuts
+fLambdaMass
+    TFile *fmix = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCut0.root");
+   TFile *fpol1 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCut1.root");
+   TFile *fpol2 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCut2.root");
+   TFile *fpol3 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCut3.root");
+   TFile *fpol4 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCut4.root");
+   TFile *fpol5 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCut5.root");
+
+SYST
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 33.000000 ratio 0.825000 rest 7.000000    +-1sigma  sum1 22.000000 ratio1 0.550000 rest1 18.000000
+
+cuts
+  Double_t cutmin = 1.114; //   -10; //  1.111 ; // 1.112;// 1.113; // 1.113 ; //1.114 ;
+  Double_t cutmax = 1.11825; //  10; // 1.120 ; // 1.119 ;//  1.119; // 1.118 ; //1.1185 ;  
+==> May be too tough cuts --> change max
+
+28oct16 ===> 95 % inside 3 sigma 28oct16 - Problem or Var of cuts DONE
+
+    
+// 5 LamCosPAcutsVar
+   TFile *fmix = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCosPA0-19oct16.root");
+   TFile *fpol1 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCosPA1-19oct16.root");
+   TFile *fpol2 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCosPA2-19oct16.root");
+   TFile *fpol3 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCosPA3-19oct16.root");
+   TFile *fpol4 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCosPA4-19oct16.root");
+   TFile *fpol5 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-LamCosPA5-19oct16.root");
+SYSYT
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 33.000000 ratio 0.825000 rest 7.000000    +-1sigma  sum1 20.000000 ratio1 0.500000 rest1 20.000000 
+fLambdaCosPointingAngle
+ Double_t cutmin = 0.9993; //0==993 9990  9994  9996 0.9998; 0.9999;   
+  Double_t cutmax = 2. ;  // 
+LamAn: very-loose  loose tight very tight
+       >0.993       >0.994  >0.996   >0.997  
+==> Cuts are much tighter than for Lambda --> reduce
+===> 3 sigma < 95 % - Problem or Var of cuts
+
+28oct16 Add cut6  0.998 instead of 5 -> 1 event out ---> all in 3 sigma DONE
+
+// 6 LamDCAD-
+  TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BASE-19oct16.root");
+   TFile *fpol1 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAD-cut1-19oct16.root");
+   TFile *fpol2 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAD-cut2-19oct16.root");
+   TFile *fpol3 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAD-cut3-19oct16.root");
+   TFile *fpol4 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAD-cut4-19oct16.root");
+   TFile *fpol5 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAD-cut5-19oct16.root");
+SYST
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 32.000000 ratio 0.800000 rest 8.000000    +-1sigma  sum1 15.000000 ratio1 0.375000 rest1 25.000000
+fLambdaDCADaughters
+Double_t cutmin = -1.0; 
+  Double_t cutmax =  0.8; // 0.6; //0.4; //0.2; //1; 20;  
+LamAn: very-loose  loose tight very tight
+       <1.50       <1.25  <0.75   <0.50  
+==> Redo with the cuts from LamAn
+
+28oct16 used cut 7-> 5 = 1.3 ; 6->4 1.2;  and all inside 3 sigma DONE
+
+
+// 7 LamDCAtoPVPos
+   TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BASE-19oct16.root");
+   TFile *fpol1 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVPos-cut1-19oct16.root");
+   TFile *fpol2 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVPos-cut2-19oct16.root");
+   TFile *fpol3 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVPos-cut3-19oct16.root");
+   TFile *fpol4 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVPos-cut4-19oct16.root");
+   TFile *fpol5 = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVPos-cut5-19oct16.root");
+Gauss                        0.9545        2                                           0.6827         13
+ +-2sigma sum 37.000000 ratio 0.925000 rest 3.000000    +-1sigma  sum1 31.000000 ratio1 0.775000 rest1 9.000000 
+fLambdaDCAtoPVPos
+  Double_t cutmin = -1.0; 
+  Double_t cutmax = 3; // 10; // 15; //20.;
+LamAn: very-loose  loose   tight very tight
+       >0.050      >0.055  >0.070   >0.080  
+==> Redo with the cuts from LamAn O
+
+28oct16 all inside 3 sigma DONE 
+
+// 8 varBgSigFiTs
+  TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BgSigFist-BASE-21oct16.root");
+   TFile *fpol1 = TFile::Open("../ss1/SigMac-v44-noTTree-PolGauss-Bins2b-BgSigFist-21oct16.root");
+   TFile *fpol2 = TFile::Open("../ss1/SigMac-v44-noTTree-PolCount-Bins2b-BgSigFist-21oct16.root");
+   TFile *fpol3 = TFile::Open("../ss1/SigMac-v44-noTTree-MixGauss-Bins2b-BgSigFist-21oct16.root");
+   TFile *fpol4 = TFile::Open("../ss1/SigMac-v44-noTTree-MixCount-IKY-Bins2b-BgSigFist-21oct16.root");
+   TFile *fpol5 = TFile::Open("../ss1/SigMac-v44-noTTree-MixCount-ABB2-Bins2b-BgSigFist-21oct16.root");
+SYST
+Gauss                        0.9545        2                                           0.6827         13
+ +-2sigma sum 29.000000 ratio 0.725000 rest 11.000000    +-1sigma  sum1 15.000000 ratio1 0.375000 rest1 25.000000 
+-BgSigFist
+POL-MIX--Gauss-Count
+LOOKS INDEED SYST - Check!
+
+// 9 cTauVar old files
+/  TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BgSigFist-BASE-21oct16.root");
+/   TFile *fpol1 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut1-21oct16.root");
+/   TFile *fpol2 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut2-21oct16.root");
+/   TFile *fpol3 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut3-21oct16.root");
+/   TFile *fpol4 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut4-21oct16.root");
+/   TFile *fpol5 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut5-21oct16.root");
+SYST
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 34.000000 ratio 0.850000 rest 6.000000    +-1sigma  sum1 17.000000 ratio1 0.425000 rest1 23.000000 
+cTauVar
+Double_t cutmin = -1.0; 
+  Double_t cutmax = 1000;  3; // 10; // 15; //20.;
+LamAn: very-loose  loose   tight very tight
+                  <40.     <20.     
+==> Redo with the cuts from LamAn
+
+>3sigma in pT bin 4 - Mean-dev >> RMC - 
+
+// 9 cTauVar - NEW files!
+  TFile *fpol2  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BgSigFist-BASE-21oct16.root");
+   TFile *fpol1 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut1-21oct16.root");
+   TFile *fmix = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut2-21oct16.root");
+   //   TFile *fpol3 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut3-21oct16.root");
+   TFile *fpol3 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut8-28oct16.root");
+   //   TFile *fpol4 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut4-21oct16.root");
+  TFile *fpol4 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut7-28oct16.root");
+   //  TFile *fpol5 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut5-21oct16.root");
+   TFile *fpol5 = TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-cTauVar-cut6-28oct16.root");
+
+
+
+
+// 10 RatioRaws
+   TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BASE-19oct16.root");
+   TFile *fpol1 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut1-24oct16.root");
+   TFile *fpol2 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut2-24oct16.root");
+   TFile *fpol3 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut3-24oct16.root");
+   TFile *fpol4 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut4-24oct16.root");
+   TFile *fpol5 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut5-24oct16.root");
+SYST
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 6.000000 ratio 0.150000 rest 34.000000    +-1sigma  sum1 1.000000 ratio1 0.025000 rest1 39.000000 
+RatioRawsVar
+   Double_t cutmin = 0.98; // 0.96; // 0.94; // 0.92; // 0.9; 
+    Double_t cutmax = 1.02; //1.04; // 1.06; // 1.08; // 1.1; 
+LamAn: very-loose  loose   tight very tight
+                   >.95          
+                   >75    >80
+==> Redo with the cuts from LamAn
+
+28oct16-OPEN
+      31oct16 BEST:
+
+0.90 -- 1.10 TFile *fpol1 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut1-24oct16.root");
+0.85 -- 1.50 TFile *fpol2 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut12-31oct16.root"); 
+0.91 -- 1.09 TFile *fpol5 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut8-31oct16.root");
+0.95 -- 1.50 TFile *fpol3 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut10-31oct16.root");
+0.80 -- 1.50 TFile *fpol4 =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut9-31oct16.root"); 
+0.90 -- 1.50 TFile *fmix =TFile::Open("../ss1/SigMac-v45-TTree-PolCount-Bins2b-RatioRawsVar-cut11-31oct16.root");
+
+BEST-> 3 sigma 1
+But mean RMC ~~ 0.04 is it syst?
+
+
+
+// 11 LamDCAtoPVNeg
+   TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BASE-19oct16.root");
+   TFile *fpol1 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVNeg-cut1-24oct16.root");
+   TFile *fpol2 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVNeg-cut2-24oct16.root");
+   TFile *fpol3 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVNeg-cut3-24oct16.root");
+   TFile *fpol4 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVNeg-cut4-24oct16.root");
+   TFile *fpol5 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LamDCAtoPVNeg-cut5-24oct16.root");
+NO SYST
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 37.000000 ratio 0.925000 rest 3.000000    +-1sigma  sum1 30.000000 ratio1 0.750000 rest1 10.000000 
+LamDCAtoPVNeg
+  Double_t cutmin = -10 ;
+    Double_t cutmax = 8.25; // 2.01; // 4; // 6; // 8; // 10 ;
+LamAn: very-loose  loose   tight very tight
+       >0.050      >0.055  >0.070   >0.080  
+==> Redo with the cuts from LamAn
+
+28oct16 --> all inside 3 sigma DONE
+
+
+// 12 LambdaK0sDiff
+  TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BASE-19oct16.root");
+   TFile *fpol1 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaK0sDiff-cut1-25ct16.root");
+   TFile *fpol2 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaK0sDiff-cut2-25ct16.root");
+   TFile *fpol3 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaK0sDiff-cut3-25ct16.root");
+   TFile *fpol4 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaK0sDiff-cut4-25ct16.root");
+   TFile *fpol5 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaK0sDiff-cut5-25ct16.root");
+SYST
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 32.000000 ratio 0.800000 rest 8.000000    +-1sigma  sum1 25.000000 ratio1 0.625000 rest1 15.000000 
+LambdaK0sDiff
+   Double_t cutmin = -10 ;
+    Double_t cutmax = 0.9;  // 1.0; // 1.25; // 1.5; // 2 ;
+==> May be tight cuts?
+
+28oct16-OPEN
+31oct16
+      Clean BG at Diff>0.80 ==? Better to remove it => cut region 0.50 -- 0.80 is best (!?)
+
+
+// 13 LambdaSigmasProton
+  TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-BASE-19oct16.root");
+   TFile *fpol1 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaSigmasProton-cut1-25ct16.root");
+   TFile *fpol2 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaSigmasProton-cut2-25ct16.root");
+   TFile *fpol3 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaSigmasProton-cut3-25ct16.root");
+   TFile *fpol4 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaSigmasProton-cut4-25ct16.root");
+   TFile *fpol5 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaSigmasProton-cut5-25ct16.root");
+NO SYST
+Gauss                        0.9545        2                                           0.6827         13
++-2sigma sum 39.000000 ratio 0.975000 rest 1.000000    +-1sigma  sum1 29.000000 ratio1 0.725000 rest1 11.000000 
+-LambdaSigmasProton
+  Double_t cutmin =  -20; // -20; // -20; // -20; // -30 ;
+    Double_t cutmax = 0; // 5; //  10; // 20;  //  30 ;
+LamAn: very-loose  loose tight very tight
+       +-7         +-6   +-4    
+
+var13c ---> 100 % inside 3 sigma 28oct16 looks OK 0 no syst!
+
+
+// 14 V0 decay radius
+LamAn: very-loose  loose tight very tight
+       >0.3        >0.4  >0.6  >0.7  1.0
+==> Redo with the cuts from LamAn
+TFile *fmix  = TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaK0sDiff-cut11-BASE-31oct16.root");
+   // TFile *fpol1 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaRadius-cut1-31oct16.root");
+   TFile *fpol1 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaRadius-cut7-31oct16.root");
+    TFile *fpol3 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaRadius-cut8-31oct16.root");
+   TFile *fpol2 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaRadius-cut2-31oct16.root");
+   //   TFile *fpol3 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaRadius-cut3-31oct16.root");
+   TFile *fpol4 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaRadius-cut4-31oct16.root");
+   TFile *fpol5 =TFile::Open("../ss1/SigMac-v45-TTree-PolGauss-Bins2b-LambdaRadius-cut5-31oct16.root");
+ 
+
+INsife 3 sigma!
